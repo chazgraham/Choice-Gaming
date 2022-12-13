@@ -26,7 +26,7 @@ const AppNavbar = () => {
               {/* if user is logged in show saved games and logout */}
               {Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to='/saved'>
+                  <Nav.Link as={Link} to='/profile'>
                     See Your games
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>

@@ -35,7 +35,7 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path='/' component={HomePage} />
-            <React exact path='/profile' component={Profile} />
+            <Route exact path='/profile' component={Profile} />
           </Switch>
         </>
       </Router>

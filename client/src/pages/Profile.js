@@ -40,7 +40,7 @@ const Profile = () => {
 
   return (
     <>
-    user Profile data here
+    <h1>user Profile data here</h1>
     </>
   )
 }
