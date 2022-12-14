@@ -1,12 +1,22 @@
 import React from 'react';
 
+import { useQuery } from '@apollo/client';
+import { QUERY_USERS} from '../utils/queries';
+import UserList from '../components/UserList';
+
+
 const HomePage = () => {
+
+    const {  data } = useQuery(QUERY_USERS);
+    const users = data?.users || [];
+    console.log(users);
+
 
     return (
         <>
-            <h2>
-                Games!
-            </h2>
+            <div>
+                <UserList users={users} title="Other users!" />
+            </div>
         </>
     )
 }
