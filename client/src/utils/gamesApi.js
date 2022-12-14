@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const BASE_URL = 'https://api.rawg.io/api/'
-const api_key = process.env.API_KEY
+const api_key = process.env.REACT_APP_API_KEY
 
 // GET THE DATE
 const getCurrentMonth = ()=> {
