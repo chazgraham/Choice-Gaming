@@ -8,6 +8,8 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import Profile from './pages/Profile';
 
+require('dotenv').config();
+
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
