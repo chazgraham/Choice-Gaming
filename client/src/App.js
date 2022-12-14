@@ -35,7 +35,10 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path='/' component={HomePage} />
-            <Route exact path='/profile' component={Profile} />
+            <Route path="/profile">
+                <Route path=":username" component={Profile} />
+                <Route path="" component={Profile} />
+            </Route>
           </Switch>
         </>
       </Router>
