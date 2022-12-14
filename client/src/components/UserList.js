@@ -8,6 +8,7 @@ const UserList = ({ users, username }) => {
 
     return (
         <>
+            <h3>Users</h3>
             <h3>{username}</h3>
             {users &&
                 users.map(users => (
@@ -16,11 +17,16 @@ const UserList = ({ users, username }) => {
                             <Link
                                 to={`/profile/${users.username}`}
                                 style={{ fontWeight: 700 }}
-                                className="text-light"
+                                className="text-dark"
                             >
                                 {users.username}
                             </Link>{' '}
                         </p>
+                        <div className='card-body'>
+                            <p>
+                                place holder for profile pic
+                            </p>
+                        </div>
                     </div>
                 ))}
         </>
