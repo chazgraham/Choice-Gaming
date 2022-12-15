@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
-import retieveGames from '../utils/gamesApi';
+import {  Container, Button, Card, CardColumns } from 'react-bootstrap';
+import {retieveGames} from '../utils/gamesApi';
 
 const Games = () => {
     const [gameData, setGameData] = useState([]);
