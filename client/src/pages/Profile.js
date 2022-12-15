@@ -5,16 +5,19 @@ import Auth from '../utils/auth';
 import { GET_ME, QUERY_USER } from '../utils/queries';
 
 const Profile = () => {
-  const { username: userParam } = useParams();
+  const { username } = useParams();
 
-  const { loading, data } = useQuery(userParam ? QUERY_USER : GET_ME, {
-    variables: { username: userParam }
+  const { loading, data } = useQuery(username ? QUERY_USER : GET_ME, {
+    variables: { username }
   });
 
   const user = data?.me || data?.user || {};
 
+  //console.log(username)
+  //console.log(user)
+
   // navigate to personal profile page if username is the logged-in user's
-  if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
+  if (Auth.loggedIn() && Auth.getProfile().data.username === username) {
     return <Switch to="/profile" />;
   }
 
@@ -33,7 +36,7 @@ const Profile = () => {
   return (
     <>
       <h2 className="bg-dark text-secondary p-3 display-inline-block">
-        Viewing {userParam ? `${user.username}'s` : 'your'} profile.
+        Viewing {username ? `${user.username}'s` : 'your'} profile.
       </h2>
     </>
   )

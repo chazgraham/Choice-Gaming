@@ -20,7 +20,7 @@ module.exports = {
         .pop()
         .trim();
     }
-  
+
     // if no token, return request object as is
     if (!token) {
       return req;
