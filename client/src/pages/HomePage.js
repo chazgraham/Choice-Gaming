@@ -13,7 +13,7 @@ const HomePage = () => {
     
     return (
         <>
-            <div className='col-1 mb-3'>
+            <div>
                 <UserList users={users} title="Other users!" />
             </div>
             <div>

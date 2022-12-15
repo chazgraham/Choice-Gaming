@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
 const UserList = ({ users, username }) => {
     if (!users.length) {
@@ -8,27 +9,26 @@ const UserList = ({ users, username }) => {
 
     return (
         <>
-            <h3>Users</h3>
-            <h3>{username}</h3>
-            {users &&
-                users.map(users => (
-                    <div key={users._id} className="card mb-3">
-                        <p className="card-header">
-                            <Link
-                                to={`/profile/${users.username}`}
-                                style={{ fontWeight: 700 }}
-                                className="text-dark"
-                            >
-                                {users.username}
-                            </Link>{' '}
-                        </p>
-                        <div className='card-body'>
-                            <p>
-                                place holder for profile pic
-                            </p>
-                        </div>
-                    </div>
-                ))}
+            <Container>
+                <h3>Users</h3>
+                <CardColumns>
+                    {users.map(users => (
+                        <Card key={users._id}>
+                            <Card.Body >
+                                <Card.Title>
+                                    <Link
+                                        to={`/profile/${users.username}`}
+                                        style={{ fontWeight: 700 }}
+                                        className="text-dark"
+                                    >
+                                        {users.username}
+                                    </Link>{' '}
+                                </Card.Title>
+                            </Card.Body>
+                        </Card>
+                    ))}
+                </CardColumns>
+            </Container>
         </>
     );
 };
