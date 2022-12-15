@@ -1,13 +1,89 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+    --primary: rgb(19, 21, 29);
+    --secondary: rgb(68, 81, 125);
+    --tertiary: rgb(193, 216, 232);
+    --quatrinary: rgb(53, 52, 46);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  background-image: url(../src/assests/back-ground.jpg);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.jumbotron {
+  background-color: transparent;
+}
+
+h3, h2, h1 {
+  margin-left: 10px;
+  color: var(--tertiary);
+}
+
+p {
+  color: aliceblue;
+  font-size: 1rem;
+}
+
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image {
+  position: relative;
+  width: 200px;
+  height: 120px;
+  margin: 20px;
+  background-color: black;
+}
+
+.img-thumbnail {
+  width: 200px;
+  height: 120px;
+  display: block;
+  border: 2px solid black;
+  border-radius: 0.25rem;
+  padding: 0;
+}
+.img__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.img__overlay > * {
+  transform: translateY(20px);
+  transition: transform 0.25s;
+}
+
+.img__overlay:hover {
+  opacity: 1;
+}
+
+.img__overlay:hover > * {
+  transform: translateY(0px);
+}
+
+.button {
+  background-color: var(--primary);
+}
+
+.btn-success {
+  border-color: var(--quatrinary);
+}
+
+.button:hover {
+  background-color: var(--secondary);
+  border-color: var(--primary);
 }

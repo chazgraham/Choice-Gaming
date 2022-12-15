@@ -3,6 +3,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
+import './index.css';
 
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';

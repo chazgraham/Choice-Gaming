@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  Container, Button, Card, CardColumns } from 'react-bootstrap';
-import {retieveGames} from '../utils/gamesApi';
+import { retieveGames } from '../utils/gamesApi';
 
 const Games = () => {
     const [gameData, setGameData] = useState([]);
@@ -8,28 +7,30 @@ const Games = () => {
     retieveGames().then(games => {
         const popularGamesData = games.map((game) => ({
             name: game.name,
-            background_image: game.background_image
+            background_image: game.background_image,
+            gameId: game.id,
         }));
         setGameData(popularGamesData);
     })
+    
 
     return (
         <>
-            <Container>
+            <div className="card-container">
                 <h3>
                     Popular Games 2022
                 </h3>
-                <CardColumns>
+                <div className="flex-row">
                     {gameData.map((game) => (
-                        <Card key={game.name} border='dark'>
-                            <Card.Img src={game.background_image} alt={`The cover image for ${game.name}`} variant='top' />
-                            <Card.Body>
-                                <Card.Title>{game.name}</Card.Title>
-                            </Card.Body>
-                        </Card>
+                        <div className="image" key={game.name} border='dark'>
+                            <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} variant='top'  />
+                            <div className="img__overlay">
+                                <p >{game.name}</p>
+                            </div>
+                        </div>
                     ))}
-                </CardColumns>
-            </Container>
+                </div>
+            </div>
         </>
     )
 }

@@ -39,7 +39,7 @@ const SearchGames = () => {
 
     return(
         <>
-        <Jumbotron fluid className='text-light bg-dark'>
+        <Jumbotron fluid className='text-light'>
         <Container>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
@@ -54,7 +54,7 @@ const SearchGames = () => {
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button type='submit' variant='success' size='lg'>
+                <Button className='button' type='submit' variant='success' size='lg'>
                   Submit Search
                 </Button>
               </Col>
