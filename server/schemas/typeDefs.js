@@ -10,6 +10,18 @@ const typeDefs = gql`
         email: String
     }
 
+    type Game {
+        name: String!
+        background_image: String!
+        gameId: ID!
+    }
+
+    input GameInput {
+        name: String!
+        background_image: String!
+        gameId: ID!
+    }
+
     type Query {
         me: User
         users: [User]
@@ -19,6 +31,7 @@ const typeDefs = gql`
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
+        saveGame(input: GameInput): User
     }
 
     type Auth {

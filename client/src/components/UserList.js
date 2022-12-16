@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
+import { Container, Card, CardColumns } from 'react-bootstrap';
 
 const UserList = ({ users, username }) => {
     if (!users.length) {
