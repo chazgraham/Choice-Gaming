@@ -30,21 +30,21 @@ const CURRENT_YEAR = new Date().getFullYear()
 const CURRENT_MONTH = getCurrentMonth()
 const CURRENT_DAY = getCurrentDay()
 // For Both popular and upcoming games
-const CURRENT_DATE = `${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DAY}`
+export const CURRENT_DATE = `${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DAY}`
 // For popular games
-const LAST_YEAR = `${CURRENT_YEAR -1}-${CURRENT_MONTH}-${CURRENT_DAY}`
+export const LAST_YEAR = `${CURRENT_YEAR -1}-${CURRENT_MONTH}-${CURRENT_DAY}`
 // For upcoming games
 //const NEXT_YEAR = `${CURRENT_YEAR +1}-${CURRENT_MONTH}-${CURRENT_DAY}`
 
-const popularGames = `${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=10`
+// const popularGames = `${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=10`
 
 //const searchGame = `${BASE_URL}games?key=${api_key}&search=${game_name}&page_size=21`;
 
-const retieveGames = async () => {
-    const response = await fetch(popularGames)
-    const data = await response.json()
-    return(data.results)
-}
+// const retieveGames = async () => {
+//     const response = await fetch(popularGames)
+//     const data = await response.json()
+//     return(data.results)
+// }
 
 // const searchGames = async (game_name) => {
 //     const response = await fetch(`${BASE_URL}games?key=${api_key}&search=${game_name}&page_size=21`)
@@ -52,4 +52,4 @@ const retieveGames = async () => {
 //     return(data.results)
 // }
 
-export {retieveGames};
+// export {retieveGames};

@@ -1,20 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { retieveGames } from '../utils/gamesApi';
 import {  useMutation } from '@apollo/client';
 import { SAVE_GAME } from "../utils/mutations";
 import Auth from '../utils/auth';
+import {  BASE_URL, LAST_YEAR, CURRENT_DATE } from '../utils/gamesApi';
+
+const api_key = process.env.REACT_APP_API_KEY
 
 const Games = () => {
     const [gameData, setGameData] = useState([]);
+    console.log(gameData)
 
-    retieveGames().then(games => {
-        const popularGamesData = games.map((game) => ({
-            name: game.name,
-            background_image: game.background_image,
-            gameId: game.id,
-        }));
-        setGameData(popularGamesData);
-    })
+    window.onload = async (event) => {
+        try {
+            const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=10`)
+            
+            if (!response.ok) {
+                throw new Error('something went wrong!');
+            }
+    
+            const  games  = await response.json();
+            const game = games.results;
+    
+            const gameData = game.map((game) => ({
+              name: game.name,
+              background_image: game.background_image,
+              gameId: game.id
+            }));
+      
+            setGameData(gameData);
+          } catch (err) {
+            console.error(err);
+        }
+    }
 
     // save games code below
     const [savedGameIds, setSavedGameIds] = useState([]);
