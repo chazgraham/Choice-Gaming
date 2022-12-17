@@ -21,6 +21,12 @@ const userSchema = new Schema(
       required: true,
     },
     savedGames: [gameSchema],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ]
   },
   // set this to use virtual below
   {

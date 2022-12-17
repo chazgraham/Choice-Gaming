@@ -9,6 +9,7 @@ const typeDefs = gql`
         username: String!
         email: String
         savedGames: [Game]
+        friends: [User]
     }
 
     type Game {
@@ -33,6 +34,7 @@ const typeDefs = gql`
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
         saveGame(input: GameInput): User
+        addFriend(friendId: ID!): User
     }
 
     type Auth {

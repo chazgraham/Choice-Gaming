@@ -1,7 +1,7 @@
 import React from 'react';
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, } from 'react-router-dom';
 import './App.css';
 import './index.css';
 
@@ -37,14 +37,22 @@ function App() {
       <Router>
         <>
           <Navbar />
-          <Switch>
-            <Route exact path='/' component={HomePage} />
+          <Routes>
+          <Route
+                path="/"
+                element={<HomePage />}
+              />
+
             <Route path="/profile">
-                <Route path=":username" component={Profile} />
-                <Route path="" component={Profile} />
+              <Route path=":username" element={<Profile />} />
+              <Route path="" element={<Profile />} />
             </Route>
-            <Route exact path='/users' component={UserList} />
-          </Switch>
+
+            <Route
+              path="/users"
+              element={<UserList />}
+            />
+          </Routes>
         </>
       </Router>
     </ApolloProvider>

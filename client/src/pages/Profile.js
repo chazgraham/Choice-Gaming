@@ -1,25 +1,38 @@
-import { Switch, useParams } from 'react-router-dom';
+import React from 'react';
+import { Navigate, useParams } from 'react-router-dom';
 
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY_USER, GET_ME } from '../utils/queries';
+import FriendList from '../components/FriendList';
 import Auth from '../utils/auth';
-import { GET_ME, QUERY_USER } from '../utils/queries';
+import { ADD_FRIEND } from '../utils/mutations';
+
+
 
 const Profile = () => {
-  const { username } = useParams();
+  const [addFriend] = useMutation(ADD_FRIEND);
+  const { username: userParam } = useParams();
+  console.log(userParam)
 
-  const { loading, data } = useQuery(username ? QUERY_USER : GET_ME, {
-    variables: { username }
+  const { loading, data } = useQuery(userParam ? QUERY_USER : GET_ME, {
+    variables: { username: userParam }
   });
 
-  const user = data?.me || data?.user || {};
-  console.log(user)
+  const handleClick = async () => {
+    try {
+      await addFriend({
+        variables: { id: user._id }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-  //console.log(username)
-  //console.log(user)
+  const user = data?.me || data?.user || {};
 
   // navigate to personal profile page if username is the logged-in user's
-  if (Auth.loggedIn() && Auth.getProfile().data.username === username) {
-    return <Switch to="/profile" />;
+  if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
+    return <Navigate to="/profile" />;
   }
 
   if (loading) {
@@ -35,12 +48,31 @@ const Profile = () => {
   }
 
   return (
-    <>
-      <h2 className="bg-dark text-secondary p-3 display-inline-block">
-        Viewing {username ? `${user.username}'s` : 'your'} profile.
-      </h2>
-    </>
-  )
-}
+    <div>
+      <div className="flex-row mb-3">
+        <h2 className="bg-dark text-secondary p-3 display-inline-block">
+          Viewing {userParam ? `${user.username}'s` : 'your'} profile.
+        </h2>
+
+        {userParam && (
+          <button className="btn ml-auto" onClick={handleClick}>
+            Add Friend
+          </button>
+        )}
+      </div>
+
+      <div className="flex-row justify-space-between mb-3">
+
+        <div className="col-12 col-lg-3 mb-3">
+          <FriendList
+            username={user.username}
+            friendCount={user.friendCount}
+            friends={user.friends}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Profile;
