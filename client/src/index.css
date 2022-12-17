@@ -16,7 +16,16 @@ body {
   background-color: transparent;
 }
 
-h3, h1 {
+h1 {
+  margin-left: 10px;
+  color: var(--tertiary);
+}
+
+h1:hover {
+  color: var(--primary);
+}
+
+h3 {
   margin-left: 10px;
   color: var(--tertiary);
 }
@@ -112,4 +121,19 @@ p {
   background-color: var(--primary);
   margin: 20px;
   border-radius: 15px;
+}
+
+.btn-1:hover {
+  background-color: var(--tertiary);
+  color: var(--primary);
+}
+
+.clear-btn {
+  margin-left: 5px;
+  background-color: var(--secondary);
+}
+
+.clear-btn:hover {
+  background-color: var(--primary);
+  color: var(--secondary);
 }

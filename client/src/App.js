@@ -8,6 +8,7 @@ import './index.css';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import Profile from './pages/Profile';
+import UserList from './components/UserList';
 
 require('dotenv').config();
 
@@ -42,6 +43,7 @@ function App() {
                 <Route path=":username" component={Profile} />
                 <Route path="" component={Profile} />
             </Route>
+            <Route exact path='/users' component={UserList} />
           </Switch>
         </>
       </Router>

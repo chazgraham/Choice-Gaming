@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Col, Form, Button, CardColumns } from 'react-bootstrap';
+import { Jumbotron, Container, Col, Form, Button, } from 'react-bootstrap';
 import { BASE_URL } from '../utils/gamesApi';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
@@ -105,7 +105,7 @@ const SearchGames = () => {
                 <Button className='button' type='submit' variant='success' size='lg'>
                   Submit Search
                 </Button>
-                <button onClick={clearSearch}>
+                <button className='clear-btn' onClick={clearSearch}>
                   clear search
                 </button>
               </Col>

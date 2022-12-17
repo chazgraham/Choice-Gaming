@@ -1,8 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Card, CardColumns } from 'react-bootstrap';
+import { useQuery } from '@apollo/client';
+import { QUERY_USERS} from '../utils/queries';
 
-const UserList = ({ users, username }) => {
+const UserList = () => {
+    const {  data } = useQuery(QUERY_USERS);
+    const users = data?.users || [];
+    console.log(users);
+
     if (!users.length) {
         return <h3>No users Yet</h3>;
     }

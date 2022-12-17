@@ -12,6 +12,7 @@ const Profile = () => {
   });
 
   const user = data?.me || data?.user || {};
+  console.log(user)
 
   //console.log(username)
   //console.log(user)

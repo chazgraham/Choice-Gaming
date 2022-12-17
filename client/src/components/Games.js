@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from '@apollo/client';
 import { SAVE_GAME } from "../utils/mutations";
 import Auth from '../utils/auth';
@@ -8,7 +8,6 @@ const api_key = process.env.REACT_APP_API_KEY
 
 const Games = () => {
   const [gameData, setGameData] = useState([]);
-  console.log(gameData)
 
   const getPopular = async (event) => {
     try {
@@ -84,15 +83,10 @@ const Games = () => {
   const [savedGameIds, setSavedGameIds] = useState([]);
   console.log(savedGameIds)
 
-  useEffect(() => {
-    return () => savedGameIds;
-  });
-
   const [saveGame] = useMutation(SAVE_GAME);
 
-
    const handleSaveGame = async (gameId) => {
-    // find the book in `searchedBooks` state by the matching id
+    
     const gameToSave = gameData.find((game) => game.gameId === gameId);
     console.log(gameToSave)
 
@@ -115,7 +109,7 @@ const Games = () => {
         throw new Error('something went wrong!');
       }
 
-      // if book successfully saves to user's account, save book id to state
+      // if game successfully saves to user's account, save game id to state
       setSavedGameIds([...savedGameIds, gameToSave.bookId]);
     } catch (err) {
       console.error(err);
