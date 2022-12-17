@@ -58,24 +58,23 @@ const SearchGames = () => {
     const gameID = gameDetail.gameId
     console.log(gameID)
 
-     const response =  await fetch (`${BASE_URL}games/${gameID}?key=${api_key}&`)
-     const game = await response.json();
-     console.log(game)
+    const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`)
+    const game = await response.json();
+    console.log(game)
 
-     const gameDescription = game.description
-     console.log(gameDescription)
+    const gameDescription = game.description
+    console.log(gameDescription)
 
-     setGameDescription(gameDescription);
-     handleShow()
+    setGameDescription(gameDescription);
+    handleShow()
   }
 
-    // save games code below
-    const [savedGameIds, setSavedGameIds] = useState([]);
-    console.log(savedGameIds)
-  
-    useEffect(() => {
-      return () => savedGameIds;
-    });
+  // save games code below
+  const [savedGameIds, setSavedGameIds] = useState([]);
+
+  useEffect(() => {
+    return () => savedGameIds;
+  });
 
   const [saveGame] = useMutation(SAVE_GAME);
 
@@ -127,7 +126,7 @@ const SearchGames = () => {
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button className='button' type='submit' variant='success' size='lg'>
+                <Button className='button' type='submit' size='lg'>
                   Submit Search
                 </Button>
                 <button className='clear-btn' onClick={clearSearch}>
@@ -148,35 +147,34 @@ const SearchGames = () => {
         <div className="flex-row">
           {searchedGame.map((game) => (
             <div className="game-card" key={game.name} border='dark'>
-            <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} variant='top' />
-            <div className="img__overlay">
-              {Auth.loggedIn() && (
-                <button
-                  disabled={savedGameIds?.some((savedGameId) => savedGameId === game.gameId)}
-                  className='button'
-                  onClick={() => handleSaveGame(game.gameId)}>
-                  {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
-                    ? 'saved!'
-                    : 'Save Game!'}
-                </button>
-              )}
+              <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} variant='top' />
+              <div className="img__overlay">
+                {Auth.loggedIn() && (
+                  <button
+                    disabled={savedGameIds?.some((savedGameId) => savedGameId === game.gameId)}
+                    className='save-button'
+                    onClick={() => handleSaveGame(game.gameId)}>
+                    {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
+                      ? 'saved!'
+                      : 'Save Game!'}
+                  </button>
+                )}
+              </div>
+              <button className="game-name" onClick={() => getDetails(game.gameId)}>{game.name}</button>
             </div>
-            <p >{game.name}</p>
-            <button onClick= {() => getDetails(game.gameId)}>game deets</button>
-          </div>
           ))}
         </div>
         <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Description</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{gameDescription}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          <Modal.Header closeButton>
+            <Modal.Title>Description</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{gameDescription}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </>
   )

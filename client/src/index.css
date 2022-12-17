@@ -101,10 +101,6 @@ p {
   background-color: var(--primary);
 }
 
-.btn-success {
-  border-color: var(--quatrinary);
-}
-
 .button:hover {
   background-color: var(--secondary);
   border-color: var(--primary);
@@ -112,6 +108,17 @@ p {
 
 .gamesBtn {
   text-align: center;
+}
+
+.game-name {
+  background-color: var(--primary);
+  min-width: 320px;
+  color: var(--tertiary);
+}
+
+.game-name:hover {
+  background-color: var(--tertiary);
+  color: var(--primary);
 }
 
 .btn-1 {
@@ -139,6 +146,16 @@ p {
 }
 
 .modal-content {
+  background-color: var(--primary);
+  color: var(--tertiary);
+}
+
+.save-button {
+  background-color: var(--tertiary);
+  color: var(--primary);
+}
+
+.save-button:hover {
   background-color: var(--primary);
   color: var(--tertiary);
 }

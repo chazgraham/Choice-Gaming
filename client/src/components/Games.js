@@ -113,6 +113,7 @@ const Games = () => {
    const handleSaveGame = async (gameId) => {
     
     const gameToSave = gameData.find((game) => game.gameId === gameId);
+    console.log(gameToSave)
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -164,7 +165,7 @@ const Games = () => {
                 {Auth.loggedIn() && (
                   <button
                     disabled={savedGameIds?.some((savedGameId) => savedGameId === game.gameId)}
-                    className='button'
+                    className='save-button'
                     onClick={() => handleSaveGame(game.gameId)}>
                     {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
                       ? 'saved!'
@@ -172,8 +173,7 @@ const Games = () => {
                   </button>
                 )}
               </div>
-              <p >{game.name}</p>
-              <button onClick= {() => getDetails(game.gameId)}>game deets</button>
+              <button className="game-name" onClick= {() => getDetails(game.gameId)}>{game.name}</button>
             </div>
           ))}
         </div>
