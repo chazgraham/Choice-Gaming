@@ -9,6 +9,17 @@ const api_key = process.env.REACT_APP_API_KEY
 const Games = () => {
   const [gameData, setGameData] = useState([]);
 
+  const getDetails = async (gameId) => {
+    const gameDetail = gameData.find((game) => game.gameId === gameId);
+    console.log(gameDetail)
+    const gameID = gameDetail.gameId
+    console.log(gameID)
+
+     const response =  await fetch (`${BASE_URL}games/${gameID}?key=${api_key}&`)
+     const game = await response.json();
+     console.log(game)
+  }
+
   const getPopular = async (event) => {
     try {
       const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=10`)
@@ -88,7 +99,6 @@ const Games = () => {
    const handleSaveGame = async (gameId) => {
     
     const gameToSave = gameData.find((game) => game.gameId === gameId);
-    console.log(gameToSave)
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -149,6 +159,7 @@ const Games = () => {
                 )}
               </div>
               <p >{game.name}</p>
+              <button onClick={() => getDetails(game.gameId)}>game deets</button>
             </div>
           ))}
         </div>
