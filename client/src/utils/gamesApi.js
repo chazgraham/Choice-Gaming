@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 export const BASE_URL = 'https://api.rawg.io/api/'
-const api_key = process.env.REACT_APP_API_KEY
 
 // GET THE DATE
 const getCurrentMonth = ()=> {
@@ -34,7 +33,7 @@ export const CURRENT_DATE = `${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DAY}`
 // For popular games
 export const LAST_YEAR = `${CURRENT_YEAR -1}-${CURRENT_MONTH}-${CURRENT_DAY}`
 // For upcoming games
-//const NEXT_YEAR = `${CURRENT_YEAR +1}-${CURRENT_MONTH}-${CURRENT_DAY}`
+export const NEXT_YEAR = `${CURRENT_YEAR +1}-${CURRENT_MONTH}-${CURRENT_DAY}`
 
 // const popularGames = `${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=10`
 

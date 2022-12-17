@@ -16,14 +16,26 @@ body {
   background-color: transparent;
 }
 
-h3, h2, h1 {
+h3, h1 {
   margin-left: 10px;
   color: var(--tertiary);
+}
+
+h2 {
+  margin-left: 10px;
+  color: var(--tertiary);
+  background-color: var(--primary);
+  width: fit-content;
+  padding: 10px;
+  border-radius: 15px;
 }
 
 p {
   color: aliceblue;
   font-size: 1rem;
+  background-color: var(--primary);
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .flex-row {
@@ -31,16 +43,17 @@ p {
   flex-wrap: wrap;
 }
 
-.image {
+.game-card {
   position: relative;
-  width: 300px;
+  width: 320px;
   height: 220px;
   margin: 20px;
+  margin-bottom: 80px;
   background-color: black;
 }
 
 .img-thumbnail {
-  width: 300px;
+  width: 320px;
   height: 220px;
   display: block;
   border: 2px solid black;
@@ -86,4 +99,17 @@ p {
 .button:hover {
   background-color: var(--secondary);
   border-color: var(--primary);
+}
+
+.gamesBtn {
+  text-align: center;
+}
+
+.btn-1 {
+  font-size: 20px;
+  color: var(--tertiary);
+  padding: 15px;
+  background-color: var(--primary);
+  margin: 20px;
+  border-radius: 15px;
 }
