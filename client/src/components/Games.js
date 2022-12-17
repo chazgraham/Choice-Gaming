@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import { useMutation } from '@apollo/client';
 import { SAVE_GAME } from "../utils/mutations";
 import Auth from '../utils/auth';
@@ -8,6 +10,12 @@ const api_key = process.env.REACT_APP_API_KEY
 
 const Games = () => {
   const [gameData, setGameData] = useState([]);
+  const [gameDescription, setGameDescription] = useState([])
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const getDetails = async (gameId) => {
     const gameDetail = gameData.find((game) => game.gameId === gameId);
@@ -18,6 +26,12 @@ const Games = () => {
      const response =  await fetch (`${BASE_URL}games/${gameID}?key=${api_key}&`)
      const game = await response.json();
      console.log(game)
+
+     const gameDescription = game.description
+     console.log(gameDescription)
+
+     setGameDescription(gameDescription);
+     handleShow()
   }
 
   const getPopular = async (event) => {
@@ -159,10 +173,21 @@ const Games = () => {
                 )}
               </div>
               <p >{game.name}</p>
-              <button onClick={() => getDetails(game.gameId)}>game deets</button>
+              <button onClick= {() => getDetails(game.gameId)}>game deets</button>
             </div>
           ))}
         </div>
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Description</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{gameDescription}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </div>
     </>
   )

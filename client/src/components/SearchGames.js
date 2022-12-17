@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Col, Form, Button, } from 'react-bootstrap';
+import { Jumbotron, Container, Col, Form, Button, Modal } from 'react-bootstrap';
 import { BASE_URL } from '../utils/gamesApi';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
@@ -31,6 +31,7 @@ const SearchGames = () => {
       const gameData = game.map((game) => ({
         name: game.name,
         background_image: game.background_image,
+        gameId: game.id
       }));
 
       setSearchedGame(gameData);
@@ -42,6 +43,30 @@ const SearchGames = () => {
 
   const clearSearch = (event) => {
     window.location.reload()
+  }
+
+  const [gameDescription, setGameDescription] = useState([])
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const getDetails = async (gameId) => {
+    const gameDetail = searchedGame.find((game) => game.gameId === gameId);
+    console.log(gameDetail)
+    const gameID = gameDetail.gameId
+    console.log(gameID)
+
+     const response =  await fetch (`${BASE_URL}games/${gameID}?key=${api_key}&`)
+     const game = await response.json();
+     console.log(game)
+
+     const gameDescription = game.description
+     console.log(gameDescription)
+
+     setGameDescription(gameDescription);
+     handleShow()
   }
 
     // save games code below
@@ -137,9 +162,21 @@ const SearchGames = () => {
               )}
             </div>
             <p >{game.name}</p>
+            <button onClick= {() => getDetails(game.gameId)}>game deets</button>
           </div>
           ))}
         </div>
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Description</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{gameDescription}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </Container>
     </>
   )

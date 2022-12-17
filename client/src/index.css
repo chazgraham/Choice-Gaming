@@ -137,3 +137,8 @@ p {
   background-color: var(--primary);
   color: var(--secondary);
 }
+
+.modal-content {
+  background-color: var(--primary);
+  color: var(--tertiary);
+}
