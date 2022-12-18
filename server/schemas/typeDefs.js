@@ -13,9 +13,10 @@ const typeDefs = gql`
     }
 
     type Game {
+        _id: ID
         name: String!
         background_image: String!
-        gameId: ID!
+        gameId: String!
     }
 
     input GameInput {
@@ -33,7 +34,7 @@ const typeDefs = gql`
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
-        saveGame(input: GameInput): User
+        saveGame(game: GameInput): User
         addFriend(friendId: ID!): User
     }
 

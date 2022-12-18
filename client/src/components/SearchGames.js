@@ -176,7 +176,7 @@ const SearchGames = () => {
             <Modal.Title>Platforms</Modal.Title>
           </Modal.Header>
           <Modal.Body>{gamePlatform.map((platforms) =>(
-            <li>{platforms.platform.name}</li>
+            <li key={platforms.platform.name}>{platforms.platform.name}</li>
           ))}</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>

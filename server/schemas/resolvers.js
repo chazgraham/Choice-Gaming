@@ -54,8 +54,8 @@ const resolvers = {
             if (context.user) {
               const updatedUser = await User.findOneAndUpdate(
                 { _id: context.user._id },
-                { $addToSet: { savedGame: input } },
-                { new: true, runValidators: true }
+                { $addToSet: { savedGame: gameData } },
+                { new: true }
               );
               return updatedUser;
             }
