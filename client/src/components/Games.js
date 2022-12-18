@@ -11,6 +11,7 @@ const api_key = process.env.REACT_APP_API_KEY
 const Games = () => {
   const [gameData, setGameData] = useState([]);
   const [gameDescription, setGameDescription] = useState([])
+  const [gamePlatform, setGamePlatform] = useState([])
 
   const [show, setShow] = useState(false);
 
@@ -23,15 +24,17 @@ const Games = () => {
     const gameID = gameDetail.gameId
     console.log(gameID)
 
-     const response =  await fetch (`${BASE_URL}games/${gameID}?key=${api_key}&`)
-     const game = await response.json();
-     console.log(game)
+    const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`)
+    const game = await response.json();
+    console.log(game)
 
-     const gameDescription = game.description
-     console.log(gameDescription)
+    const gameDescription = game.description
+    console.log(gameDescription)
+    const gamePlatform = game.platforms
 
-     setGameDescription(gameDescription);
-     handleShow()
+    setGameDescription(gameDescription);
+    setGamePlatform(gamePlatform);
+    handleShow()
   }
 
   const getPopular = async (event) => {
@@ -106,12 +109,12 @@ const Games = () => {
 
   // save games code below
   const [savedGameIds, setSavedGameIds] = useState([]);
-  console.log(savedGameIds)
+  //console.log(savedGameIds)
 
   const [saveGame] = useMutation(SAVE_GAME);
 
-   const handleSaveGame = async (gameId) => {
-    
+  const handleSaveGame = async (gameId) => {
+
     const gameToSave = gameData.find((game) => game.gameId === gameId);
     console.log(gameToSave)
 
@@ -173,21 +176,27 @@ const Games = () => {
                   </button>
                 )}
               </div>
-              <button className="game-name" onClick= {() => getDetails(game.gameId)}>{game.name}</button>
+              <button className="game-name" onClick={() => getDetails(game.gameId)}>{game.name}</button>
             </div>
           ))}
         </div>
         <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Description</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{gameDescription}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          <Modal.Header closeButton>
+            <Modal.Title>Description</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{gameDescription}</Modal.Body>
+          <Modal.Header>
+            <Modal.Title>Platforms</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{gamePlatform.map((platforms) =>(
+            <li>{platforms.platform.name}</li>
+          ))}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </>
   )

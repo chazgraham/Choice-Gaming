@@ -46,6 +46,7 @@ const SearchGames = () => {
   }
 
   const [gameDescription, setGameDescription] = useState([])
+  const [gamePlatform, setGamePlatform] = useState([])
 
   const [show, setShow] = useState(false);
 
@@ -64,8 +65,10 @@ const SearchGames = () => {
 
     const gameDescription = game.description
     console.log(gameDescription)
+    const gamePlatform = game.platforms
 
     setGameDescription(gameDescription);
+    setGamePlatform(gamePlatform);
     handleShow()
   }
 
@@ -169,6 +172,12 @@ const SearchGames = () => {
             <Modal.Title>Description</Modal.Title>
           </Modal.Header>
           <Modal.Body>{gameDescription}</Modal.Body>
+          <Modal.Header>
+            <Modal.Title>Platforms</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{gamePlatform.map((platforms) =>(
+            <li>{platforms.platform.name}</li>
+          ))}</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
