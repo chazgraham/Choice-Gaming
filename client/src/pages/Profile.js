@@ -49,8 +49,8 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="flex-row mb-3">
-        <h2 className="bg-dark text-secondary p-3 display-inline-block">
+      <div className="profile-h2">
+        <h2>
           Viewing {userParam ? `${user.username}'s` : 'your'} profile.
         </h2>
 
@@ -61,9 +61,9 @@ const Profile = () => {
         )}
       </div>
 
-      <div className="flex-row justify-space-between mb-3">
+      <div className="friend-container">
 
-        <div className="col-12 col-lg-3 mb-3">
+        <div className="">
           <FriendList
             username={user.username}
             friendCount={user.friendCount}

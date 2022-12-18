@@ -7,12 +7,12 @@ const FriendList = ({ friendCount, username, friends }) => {
   }
 
   return (
-    <div>
+    <div className='friend-container'>
       <h5>
         {username}'s {friendCount} {friendCount === 1 ? 'friend' : 'friends'}
       </h5>
       {friends.map(friend => (
-        <button className="btn w-100 display-block mb-2" key={friend._id}>
+        <button className="profile-link" key={friend._id}>
           <Link to={`/profile/${friend.username}`}>{friend.username}</Link>
         </button>
       ))}

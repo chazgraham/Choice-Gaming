@@ -25,11 +25,6 @@ h1:hover {
   color: var(--primary);
 }
 
-h3 {
-  margin-left: 10px;
-  color: var(--tertiary);
-}
-
 h2 {
   margin-left: 10px;
   color: var(--tertiary);
@@ -39,8 +34,22 @@ h2 {
   border-radius: 15px;
 }
 
-.nav-link {
+h3 {
+  margin-left: 10px;
+  color: var(--tertiary);
+}
+
+h4 {
+  color: var(--tertiary);
   background-color: var(--primary);
+  text-align: center;
+  margin-bottom: 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.nav-link {
+  color: var(--primary);
   margin: 2px;
   border-radius: 5px;
 }
@@ -50,9 +59,11 @@ p {
   font-size: 1rem;
   background-color: var(--primary);
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
+
+/* Game cards start */
 .flex-row {
   display: flex;
   flex-wrap: wrap;
@@ -63,8 +74,13 @@ p {
   width: 320px;
   height: 220px;
   margin: 20px;
-  margin-bottom: 80px;
+  margin-bottom: 100px;
   background-color: black;
+  border-radius: 15px;
+}
+
+.overlay-position {
+  position: relative;
 }
 
 .img-thumbnail {
@@ -116,16 +132,18 @@ p {
   text-align: center;
 }
 
-.game-name {
+.details-btn {
   background-color: var(--primary);
   min-width: 320px;
   color: var(--tertiary);
 }
 
-.game-name:hover {
+.details-btn:hover {
   background-color: var(--tertiary);
   color: var(--primary);
 }
+
+/* Buttons */
 
 .btn-1 {
   font-size: 20px;
@@ -157,6 +175,11 @@ p {
   color: var(--tertiary);
 }
 
+.navbar-dark .navbar-nav .nav-link {
+  color: var(--primary);
+  font-weight:bold ;
+}
+
 .save-button {
   background-color: var(--tertiary);
   color: var(--primary);
@@ -165,4 +188,28 @@ p {
 .save-button:hover {
   background-color: var(--primary);
   color: var(--tertiary);
+}
+
+.friend-container {
+  margin-right: 10px;
+  text-align: right;
+}
+
+.profile-link {
+  font-size: 15px;
+  color: var(--tertiary);
+  padding: 15px;
+  background-color: var(--primary);
+  margin: 20px;
+  border-radius: 15px;
+}
+
+.profile-h2{
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.navbar-toggler-icon {
+  color: var(--primary);
 }

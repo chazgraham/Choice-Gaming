@@ -150,6 +150,8 @@ const SearchGames = () => {
         <div className="flex-row">
           {searchedGame.map((game) => (
             <div className="game-card" key={game.name} border='dark'>
+              <h4>{game.name}</h4>
+              <div className="overlay-position">
               <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} variant='top' />
               <div className="img__overlay">
                 {Auth.loggedIn() && (
@@ -162,8 +164,9 @@ const SearchGames = () => {
                       : 'Save Game!'}
                   </button>
                 )}
+                </div>
               </div>
-              <button className="game-name" onClick={() => getDetails(game.gameId)}>{game.name}</button>
+              <button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>
             </div>
           ))}
         </div>

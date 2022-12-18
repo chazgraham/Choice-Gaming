@@ -168,6 +168,8 @@ const Games = () => {
         <div className="flex-row">
           {gameData.map((game) => (
             <div className="game-card" key={game.name} border='dark'>
+              <h4>{game.name}</h4>
+              <div className="overlay-position">
               <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} variant='top' />
               {Auth.loggedIn() && (
               <div className="img__overlay">
@@ -180,8 +182,9 @@ const Games = () => {
                       : 'Save Game!'}
                   </button>
               </div>
-              )}
-              <button className="game-name" onClick={() => getDetails(game.gameId)}>{game.name}</button>
+              )} 
+              </div>
+              <button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>
             </div>
           ))}
         </div>

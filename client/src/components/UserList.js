@@ -16,7 +16,7 @@ const UserList = () => {
     return (
         <>
             <Container>
-                <h3>Users</h3>
+                <h3>Explore other Users!</h3>
                 <CardColumns>
                     {users.map(users => (
                         <Card key={users._id}>
