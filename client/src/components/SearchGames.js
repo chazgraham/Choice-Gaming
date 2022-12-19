@@ -48,6 +48,7 @@ const SearchGames = () => {
   const [gameDescription, setGameDescription] = useState([])
   const [gamePlatform, setGamePlatform] = useState([])
   const [gameGenre, setGameGenres] = useState([])
+  const [gameRating, setGameRating] = useState([])
 
   const [show, setShow] = useState(false);
 
@@ -67,11 +68,14 @@ const SearchGames = () => {
     const gameDescription = game.description
     console.log(gameDescription)
     const gamePlatform = game.platforms
-    const gameGenres = game.genres
+    const gameGenres = game.genres;
+    const gameRating = game.rating;
     setGameGenres(gameGenres)
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
+       setGameGenres(gameGenres);
+    setGameRating(gameRating);
     handleShow()
   }
 
@@ -145,10 +149,10 @@ const SearchGames = () => {
       </Jumbotron>
 
       <Container>
-        <h2>
+        <h2 className='viewing'>
           {searchedGame.length
             ? `Viewing ${searchedGame.length} results:`
-            : 'Search for a game to begin'}
+            : ''}
         </h2>
         <div className="flex-row">
           {searchedGame.map((game) => (
@@ -174,7 +178,11 @@ const SearchGames = () => {
           ))}
         </div>
         <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
+          <p>{gameRating === 0
+            ? 'Currently Unrated'
+            : `Rating: ${gameRating} out of 5`}
+          </p>
+          <Modal.Header>
             <Modal.Title>Description</Modal.Title>
           </Modal.Header>
           <Modal.Body>{gameDescription}</Modal.Body>

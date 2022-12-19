@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import Profile from './pages/Profile';
 import UserList from './components/UserList';
+import Footer from './components/Footer';
 
 require('dotenv').config();
 
@@ -35,13 +36,12 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <>
-          <Navbar />
+        <Navbar />
           <Routes>
-          <Route
-                path="/"
-                element={<HomePage />}
-              />
+            <Route
+              path="/"
+              element={<HomePage />}
+            />
 
             <Route path="/profile">
               <Route path=":username" element={<Profile />} />
@@ -53,8 +53,8 @@ function App() {
               element={<UserList />}
             />
           </Routes>
-        </>
       </Router>
+      <Footer />
     </ApolloProvider>
   );
 }

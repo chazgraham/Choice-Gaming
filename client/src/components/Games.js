@@ -140,9 +140,9 @@ const Games = () => {
     }
     console.log(gameToSave)
 
-    if (typeof gameToSave === 'object' && 
-    gameToSave !== null &&
-    !Array.isArray(gameToSave)
+    if (typeof gameToSave === 'object' &&
+      gameToSave !== null &&
+      !Array.isArray(gameToSave)
     ) {
       console.log('✅ Value is an object');
     } else {
@@ -207,11 +207,10 @@ const Games = () => {
         </div>
         <Modal show={show} onHide={handleClose}>
           <p>{gameRating === 0
-          ? 'Currently Unrated'
-          : `Rating: ${gameRating} out of 5`}
+            ? 'Currently Unrated'
+            : `Rating: ${gameRating} out of 5`}
           </p>
-   
-          <Modal.Header closeButton>
+          <Modal.Header>
             <Modal.Title>Description</Modal.Title>
           </Modal.Header>
           <Modal.Body>{gameDescription}</Modal.Body>
