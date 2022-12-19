@@ -15,6 +15,7 @@ const Games = () => {
   const [gameDescription, setGameDescription] = useState([])
   const [gamePlatform, setGamePlatform] = useState([])
   const [gameGenre, setGameGenres] = useState([])
+  const [gameRating, setGameRating] = useState([])
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -22,22 +23,25 @@ const Games = () => {
 
   const getDetails = async (gameId) => {
     const gameDetail = gameData.find((game) => game.gameId === gameId);
-    console.log(gameDetail)
-    const gameID = gameDetail.gameId
-    console.log(gameID)
+    console.log(gameDetail);
+    const gameID = gameDetail.gameId;
+    console.log(gameID);
 
-    const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`)
+    const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`);
     const game = await response.json();
-    console.log(game)
+    console.log(game);
 
-    const gameDescription = game.description
-    console.log(gameDescription)
-    const gamePlatform = game.platforms
-    const gameGenres = game.genres
+    const gameDescription = game.description;
+    console.log(gameDescription);
+    const gamePlatform = game.platforms;
+    const gameGenres = game.genres;
+    const gameRating = game.rating;
+    console.log(gameRating)
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
-    setGameGenres(gameGenres)
+    setGameGenres(gameGenres);
+    setGameRating(gameRating);
     handleShow()
   }
 
@@ -202,6 +206,11 @@ const Games = () => {
           ))}
         </div>
         <Modal show={show} onHide={handleClose}>
+          <p>{gameRating === 0
+          ? 'Currently Unrated'
+          : `Rating: ${gameRating} out of 5`}
+          </p>
+   
           <Modal.Header closeButton>
             <Modal.Title>Description</Modal.Title>
           </Modal.Header>
