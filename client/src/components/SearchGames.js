@@ -47,6 +47,7 @@ const SearchGames = () => {
 
   const [gameDescription, setGameDescription] = useState([])
   const [gamePlatform, setGamePlatform] = useState([])
+  const [gameGenre, setGameGenres] = useState([])
 
   const [show, setShow] = useState(false);
 
@@ -66,6 +67,8 @@ const SearchGames = () => {
     const gameDescription = game.description
     console.log(gameDescription)
     const gamePlatform = game.platforms
+    const gameGenres = game.genres
+    setGameGenres(gameGenres)
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
@@ -129,9 +132,9 @@ const SearchGames = () => {
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button className='button' type='submit' size='lg'>
+                <button className='btn-2' type='submit' size='lg'>
                   Submit Search
-                </Button>
+                </button>
                 <button className='clear-btn' onClick={clearSearch}>
                   clear search
                 </button>
@@ -149,22 +152,22 @@ const SearchGames = () => {
         </h2>
         <div className="flex-row">
           {searchedGame.map((game) => (
-            <div className="game-card" key={game.name} border='dark'>
+            <div className="game-card" key={game.name}>
               <h4>{game.name}</h4>
               <div className="overlay-position">
-              <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} variant='top' />
-              <div className="img__overlay">
+                <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} />
                 {Auth.loggedIn() && (
-                  <button
-                    disabled={savedGameIds?.some((savedGameId) => savedGameId === game.gameId)}
-                    className='save-button'
-                    onClick={() => handleSaveGame(game.gameId)}>
-                    {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
-                      ? 'saved!'
-                      : 'Save Game!'}
-                  </button>
+                  <div className="img__overlay">
+                    <button
+                      disabled={savedGameIds?.some((savedGameId) => savedGameId === game.gameId)}
+                      className='save-button'
+                      onClick={() => handleSaveGame(game.gameId)}>
+                      {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
+                        ? 'saved!'
+                        : 'Save Game!'}
+                    </button>
+                  </div>
                 )}
-                </div>
               </div>
               <button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>
             </div>
@@ -178,8 +181,14 @@ const SearchGames = () => {
           <Modal.Header>
             <Modal.Title>Platforms</Modal.Title>
           </Modal.Header>
-          <Modal.Body>{gamePlatform.map((platforms) =>(
+          <Modal.Body>{gamePlatform.map((platforms) => (
             <li key={platforms.platform.name}>{platforms.platform.name}</li>
+          ))}</Modal.Body>
+          <Modal.Header>
+            <Modal.Title>Genres</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{gameGenre.map((genres) => (
+            <li key={genres.name}>{genres.name}</li>
           ))}</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>

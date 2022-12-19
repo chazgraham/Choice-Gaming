@@ -20,7 +20,7 @@ const UserList = () => {
                 <CardColumns>
                     {users.map(users => (
                         <Card key={users._id}>
-                            <Card.Body >
+                            <Card.Body>
                                 <Card.Title>
                                     <Link
                                         to={`/profile/${users.username}`}

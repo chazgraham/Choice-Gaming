@@ -14,9 +14,9 @@ const Games = () => {
   const [gameData, setGameData] = useState([]);
   const [gameDescription, setGameDescription] = useState([])
   const [gamePlatform, setGamePlatform] = useState([])
+  const [gameGenre, setGameGenres] = useState([])
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -33,9 +33,11 @@ const Games = () => {
     const gameDescription = game.description
     console.log(gameDescription)
     const gamePlatform = game.platforms
+    const gameGenres = game.genres
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
+    setGameGenres(gameGenres)
     handleShow()
   }
 
@@ -49,6 +51,7 @@ const Games = () => {
 
       const games = await response.json();
       const game = games.results;
+      console.log(game)
 
       const gameData = game.map((game) => ({
         name: game.name,
@@ -123,7 +126,7 @@ const Games = () => {
 
     console.log(gameData)
     const gameToSave = gameData.find((game) => game.gameId === gameId);
-    
+
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -132,14 +135,24 @@ const Games = () => {
       return false;
     }
     console.log(gameToSave)
+
+    if (typeof gameToSave === 'object' && 
+    gameToSave !== null &&
+    !Array.isArray(gameToSave)
+    ) {
+      console.log('✅ Value is an object');
+    } else {
+      console.log('⛔️ Value is not an object');
+    }
+
     try {
-       await saveGame({
-        variables: {game: {...gameToSave} },
-          update: cache => {
-            const {me} = cache.readQuery({ query: GET_ME });
-             console.log(me)
-            cache.writeQuery({ query: GET_ME , data: {me: { ...me, savedGames: [...me.savedGames, gameToSave] } } })
-          }
+      await saveGame({
+        variables: { game: { ...gameToSave } },
+        update: cache => {
+          const { me } = cache.readQuery({ query: GET_ME });
+          console.log(me)
+          cache.writeQuery({ query: GET_ME, data: { me: { ...me, savedGames: [...me.savedGames, gameToSave] } } })
+        }
       });
 
       // if game successfully saves to user's account, save game id to state
@@ -167,22 +180,22 @@ const Games = () => {
 
         <div className="flex-row">
           {gameData.map((game) => (
-            <div className="game-card" key={game.name} border='dark'>
+            <div className="game-card" key={game.name}>
               <h4>{game.name}</h4>
               <div className="overlay-position">
-              <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} variant='top' />
-              {Auth.loggedIn() && (
-              <div className="img__overlay">
-                  <button
-                    disabled={savedGameIds?.some((savedGameId) => savedGameId === game.gameId)}
-                    className='save-button'
-                    onClick={() => handleSaveGame(game.gameId)}>
-                    {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
-                      ? 'saved!'
-                      : 'Save Game!'}
-                  </button>
-              </div>
-              )} 
+                <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} />
+                {Auth.loggedIn() && (
+                  <div className="img__overlay">
+                    <button
+                      disabled={savedGameIds?.some((savedGameId) => savedGameId === game.gameId)}
+                      className='save-button'
+                      onClick={() => handleSaveGame(game.gameId)}>
+                      {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
+                        ? 'saved!'
+                        : 'Save Game!'}
+                    </button>
+                  </div>
+                )}
               </div>
               <button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>
             </div>
@@ -196,8 +209,14 @@ const Games = () => {
           <Modal.Header>
             <Modal.Title>Platforms</Modal.Title>
           </Modal.Header>
-          <Modal.Body>{gamePlatform.map((platforms) =>(
+          <Modal.Body>{gamePlatform.map((platforms) => (
             <li key={platforms.platform.name}>{platforms.platform.name}</li>
+          ))}</Modal.Body>
+          <Modal.Header>
+            <Modal.Title>Genres</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{gameGenre.map((genres) => (
+            <li key={genres.name}>{genres.name}</li>
           ))}</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>

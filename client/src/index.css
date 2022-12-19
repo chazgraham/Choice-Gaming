@@ -154,7 +154,15 @@ p {
   border-radius: 15px;
 }
 
-.btn-1:hover {
+.btn-2 {
+  font-size: 20px;
+  color: var(--tertiary);
+  padding: 10px;
+  background-color: var(--primary);
+  border-radius: 15px;
+}
+
+.btn-1:hover, .btn-2:hover {
   background-color: var(--tertiary);
   color: var(--primary);
 }
