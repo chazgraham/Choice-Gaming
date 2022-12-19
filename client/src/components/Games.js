@@ -12,39 +12,8 @@ const api_key = process.env.REACT_APP_API_KEY
 
 const Games = () => {
   const [gameData, setGameData] = useState([]);
-  const [gameDescription, setGameDescription] = useState([])
-  const [gamePlatform, setGamePlatform] = useState([])
-  const [gameGenre, setGameGenres] = useState([])
-  const [gameRating, setGameRating] = useState([])
-  const [gameReleaseDate, setGameReleaseDate] = useState([])
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const getDetails = async (gameId) => {
-    const gameDetail = gameData.find((game) => game.gameId === gameId);
-    const gameID = gameDetail.gameId;
-
-    const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`);
-    const game = await response.json();
-
-    const gameDescription = game.description;
-    const gamePlatform = game.platforms;
-    const gameGenres = game.genres;
-    const gameRating = game.rating;
-    const gameRelease = game.released
-
-    console.log(gameRelease)
-
-    setGameDescription(gameDescription);
-    setGamePlatform(gamePlatform);
-    setGameGenres(gameGenres);
-    setGameRating(gameRating);
-    setGameReleaseDate(gameRelease);
-    handleShow()
-  }
-
+  // Gets a list of 10 popular games
   const getPopular = async (event) => {
     try {
       const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=10`)
@@ -69,6 +38,7 @@ const Games = () => {
     }
   }
 
+  // Gets a list of 10 Upcoming games
   const getUpcoming = async (event) => {
     try {
       const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${CURRENT_DATE},${NEXT_YEAR}&ordering=-rating&page_size=10`)
@@ -92,6 +62,7 @@ const Games = () => {
     }
   }
 
+  // Gets a list of 10 New games
   const getNew = async (event) => {
     try {
       const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-released&page_size=10`)
@@ -113,6 +84,42 @@ const Games = () => {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  // Differnt values for game details
+  const [gameDescription, setGameDescription] = useState([])
+  const [gamePlatform, setGamePlatform] = useState([])
+  const [gameGenre, setGameGenres] = useState([])
+  const [gameRating, setGameRating] = useState([])
+  const [gameReleaseDate, setGameReleaseDate] = useState([])
+
+  //handles detail model 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  // Gets the games ID from gameData and passes it through api call to get details 
+  const getDetails = async (gameId) => {
+    const gameDetail = gameData.find((game) => game.gameId === gameId);
+    const gameID = gameDetail.gameId;
+
+    const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`);
+    const game = await response.json();
+
+    const gameDescription = game.description;
+    const gamePlatform = game.platforms;
+    const gameGenres = game.genres;
+    const gameRating = game.rating;
+    const gameRelease = game.released
+
+    console.log(gameRelease)
+
+    setGameDescription(gameDescription);
+    setGamePlatform(gamePlatform);
+    setGameGenres(gameGenres);
+    setGameRating(gameRating);
+    setGameReleaseDate(gameRelease);
+    handleShow()
   }
 
 

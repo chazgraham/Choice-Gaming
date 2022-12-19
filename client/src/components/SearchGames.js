@@ -11,6 +11,7 @@ const SearchGames = () => {
   const [searchedGame, setSearchedGame] = useState([]);
   const [searchedInput, setSearchInput] = useState('');
 
+  // Sets the forms input to searchedGame state then runs it through api call
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -41,21 +42,24 @@ const SearchGames = () => {
     }
   }
 
+  // Clear button
   const clearSearch = (event) => {
     window.location.reload()
   }
 
+  // Different values for the games details
   const [gameDescription, setGameDescription] = useState([])
   const [gamePlatform, setGamePlatform] = useState([])
   const [gameGenre, setGameGenres] = useState([])
   const [gameRating, setGameRating] = useState([])
   const [gameReleaseDate, setGameReleaseDate] = useState([])
 
+  // Controlls the model that shows the games details
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Gets the games ID from searchGame and passes it through api call to get details
   const getDetails = async (gameId) => {
     const gameDetail = searchedGame.find((game) => game.gameId === gameId);
     console.log(gameDetail)
@@ -91,7 +95,7 @@ const SearchGames = () => {
   const [saveGame] = useMutation(SAVE_GAME);
 
   const handleSaveGame = async (gameId) => {
-    // find the book in `searchedBooks` state by the matching id
+    // find the game in `searchedGame` state by the matching id
     const gameToSave = searchedGame.find((game) => game.gameId === gameId);
     console.log(gameToSave)
 
@@ -114,7 +118,7 @@ const SearchGames = () => {
         throw new Error('something went wrong!');
       }
 
-      // if book successfully saves to user's account, save book id to state
+      // if book successfully saves to user's account, save game id to state
       setSavedGameIds([...savedGameIds, gameToSave.bookId]);
     } catch (err) {
       console.error(err);
