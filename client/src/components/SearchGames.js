@@ -49,6 +49,7 @@ const SearchGames = () => {
   const [gamePlatform, setGamePlatform] = useState([])
   const [gameGenre, setGameGenres] = useState([])
   const [gameRating, setGameRating] = useState([])
+  const [gameReleaseDate, setGameReleaseDate] = useState([])
 
   const [show, setShow] = useState(false);
 
@@ -70,12 +71,13 @@ const SearchGames = () => {
     const gamePlatform = game.platforms
     const gameGenres = game.genres;
     const gameRating = game.rating;
-    setGameGenres(gameGenres)
+    const gameRelease = game.released
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
-       setGameGenres(gameGenres);
+    setGameGenres(gameGenres);
     setGameRating(gameRating);
+    setGameReleaseDate(gameRelease);
     handleShow()
   }
 
@@ -182,6 +184,7 @@ const SearchGames = () => {
             ? 'Currently Unrated'
             : `Rating: ${gameRating} out of 5`}
           </p>
+          <p>Released on: {gameReleaseDate}</p>
           <Modal.Header>
             <Modal.Title>Description</Modal.Title>
           </Modal.Header>

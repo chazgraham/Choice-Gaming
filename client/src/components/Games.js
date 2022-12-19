@@ -16,6 +16,7 @@ const Games = () => {
   const [gamePlatform, setGamePlatform] = useState([])
   const [gameGenre, setGameGenres] = useState([])
   const [gameRating, setGameRating] = useState([])
+  const [gameReleaseDate, setGameReleaseDate] = useState([])
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -23,25 +24,24 @@ const Games = () => {
 
   const getDetails = async (gameId) => {
     const gameDetail = gameData.find((game) => game.gameId === gameId);
-    console.log(gameDetail);
     const gameID = gameDetail.gameId;
-    console.log(gameID);
 
     const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`);
     const game = await response.json();
-    console.log(game);
 
     const gameDescription = game.description;
-    console.log(gameDescription);
     const gamePlatform = game.platforms;
     const gameGenres = game.genres;
     const gameRating = game.rating;
-    console.log(gameRating)
+    const gameRelease = game.released
+
+    console.log(gameRelease)
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
     setGameGenres(gameGenres);
     setGameRating(gameRating);
+    setGameReleaseDate(gameRelease);
     handleShow()
   }
 
@@ -210,6 +210,7 @@ const Games = () => {
             ? 'Currently Unrated'
             : `Rating: ${gameRating} out of 5`}
           </p>
+          <p>Released on: {gameReleaseDate}</p>
           <Modal.Header>
             <Modal.Title>Description</Modal.Title>
           </Modal.Header>
