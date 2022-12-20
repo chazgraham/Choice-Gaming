@@ -72,6 +72,17 @@ const resolvers = {
             }
             throw new AuthenticationError("You need to be logged in!");
         },
+        played: async (parent, { gameToSave }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { playedGames: gameToSave } },
+                    { new: true }
+                );
+                return updatedUser;
+            }
+            throw new AuthenticationError("You need to be logged in!");
+        },
         addFriend: async (parent, { friendId }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
@@ -101,6 +112,17 @@ const resolvers = {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     { $pull: { wishlistGames: { gameId: gameId } } },
+                    { new: true }
+                );
+                return updatedUser;
+            }
+            throw new AuthenticationError("You need to be logged in!");
+        },
+        deletePlayedGame: async (parent, { gameId }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { playedGames: { gameId: gameId } } },
                     { new: true }
                 );
                 return updatedUser;

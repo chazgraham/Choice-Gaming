@@ -22,6 +22,7 @@ const userSchema = new Schema(
     },
     savedGames: [gameSchema],
     wishlistGames: [gameSchema],
+    playedGames: [gameSchema],
     friends: [
       {
         type: Schema.Types.ObjectId,

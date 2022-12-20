@@ -1,3 +1,4 @@
+// gets IDS for the playing games ARR
 export const getSavedGameIds = () => {
   const savedGameIds = localStorage.getItem('saved_games')
     ? JSON.parse(localStorage.getItem('saved_games'))
@@ -14,6 +15,15 @@ export const getWishlistGameIds = () => {
   return wishlistGameIds;
 };
 
+export const getPlayedGameIds = () => {
+  const playedGameIds = localStorage.getItem('played_games')
+    ? JSON.parse(localStorage.getItem('played_games'))
+    : [];
+
+  return playedGameIds;
+};
+
+// Saves IDS to saved_games localstorage
 export const saveGameIds = (gameIdArr) => {
   console.log(gameIdArr)
   if (gameIdArr.length) {
@@ -23,6 +33,7 @@ export const saveGameIds = (gameIdArr) => {
   }
 };
 
+// Saves IDS to wishlist_games localstorage
 export const saveWishlistIds = (gameIdArr) => {
   console.log(gameIdArr)
   if (gameIdArr.length) {
@@ -32,6 +43,16 @@ export const saveWishlistIds = (gameIdArr) => {
   }
 };
 
+export const SaveplayedGameIds = (gameIdArr) => {
+  console.log(gameIdArr)
+  if (gameIdArr.length) {
+    localStorage.setItem('played_games', JSON.stringify(gameIdArr));
+  } else {
+    localStorage.removeItem('played_games');
+  }
+};
+
+// Delets IDS from saved_games localstorage
 export const deleteGameId = (gameId) => {
   const savedGameIds = localStorage.getItem('saved_games')
     ? JSON.parse(localStorage.getItem('saved_games'))
@@ -48,6 +69,7 @@ export const deleteGameId = (gameId) => {
   return true;
 };
 
+// Delets IDS from wishlist_games localstorage
 export const deleteWishlistGameId = (gameId) => {
   const wishlistGameIds = localStorage.getItem('wishlist_games')
     ? JSON.parse(localStorage.getItem('wishlist_games'))
@@ -60,6 +82,23 @@ export const deleteWishlistGameId = (gameId) => {
   const updatedWishlistGameIds = wishlistGameIds?.filter((savedGameId) => savedGameId != gameId);
   localStorage.setItem('wishlist_games', JSON.stringify(updatedWishlistGameIds));
   console.log(updatedWishlistGameIds)
+
+  return true;
+};
+
+// Delets IDS from wishlist_games localstorage
+export const deletePlayedGameId = (gameId) => {
+  const playedGameIds = localStorage.getItem('played_games')
+    ? JSON.parse(localStorage.getItem('played_games'))
+    : null;
+  console.log(playedGameIds)
+
+  if (!playedGameIds) {
+    return false;
+  }
+  const updatedPlayedGameIds = playedGameIds?.filter((savedGameId) => savedGameId != gameId);
+  localStorage.setItem('wishlist_games', JSON.stringify(updatedPlayedGameIds));
+  console.log(updatedPlayedGameIds)
 
   return true;
 };

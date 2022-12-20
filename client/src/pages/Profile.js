@@ -6,8 +6,8 @@ import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER, GET_ME } from '../utils/queries';
 import FriendList from '../components/FriendList';
 import Auth from '../utils/auth';
-import { ADD_FRIEND, Delete_GAME , Delete_WISHLISTGAME } from '../utils/mutations';
-import { deleteGameId, deleteWishlistGameId } from '../utils/localStorage';
+import { ADD_FRIEND, Delete_GAME , Delete_WISHLISTGAME, Delete_PLAYEDGAME } from '../utils/mutations';
+import { deleteGameId, deleteWishlistGameId, deletePlayedGameId } from '../utils/localStorage';
 import { BASE_URL } from '../utils/gamesApi';
 
 const api_key = process.env.REACT_APP_API_KEY
@@ -16,6 +16,7 @@ const Profile = () => {
   const [addFriend] = useMutation(ADD_FRIEND);
   const [deleteGame] = useMutation(Delete_GAME);
   const [deleteWishlistGame] = useMutation(Delete_WISHLISTGAME);
+  const [deletePlayedGame] = useMutation(Delete_PLAYEDGAME);
   const { username: userParam } = useParams();
 
   const { loading, data } = useQuery(userParam ? QUERY_USER : GET_ME, {
@@ -122,6 +123,25 @@ const Profile = () => {
     }
   }
 
+  const handleDeletePlayedGame = async (gameId) => {
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    console.log(gameId)
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      await deletePlayedGame({
+        variables: { gameId: gameId },
+      })
+
+      deletePlayedGameId(gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <div>
       <div className="profile-h2">
@@ -161,6 +181,27 @@ const Profile = () => {
                     <button
                       className='save-button'
                       onClick={() => handleDeleteWishlistGame(game.gameId)}>
+                      Remove
+                    </button>
+                  </div>
+                )}
+              </div>
+              {<button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex-row">
+          {user.playedGames.map((game) => (
+            <div className="game-card" key={game.name}>
+              <h4>{game.name}</h4>
+              <div className="overlay-position">
+                <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} />
+                {Auth.loggedIn() && (
+                  <div className="img__overlay">
+                    <button
+                      className='save-button'
+                      onClick={() => handleDeletePlayedGame(game.gameId)}>
                       Remove
                     </button>
                   </div>

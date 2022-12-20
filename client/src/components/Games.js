@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useMutation } from '@apollo/client';
-import { SAVE_GAME, WISHLIST_GAME } from "../utils/mutations";
-import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds } from "../utils/localStorage";
+import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../utils/mutations";
+import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds,  SaveplayedGameIds } from "../utils/localStorage";
 import Auth from '../utils/auth';
 import { BASE_URL, LAST_YEAR, CURRENT_DATE, NEXT_YEAR } from '../utils/gamesApi';
 
@@ -188,6 +188,39 @@ const Games = () => {
       }
     };
 
+    // save games code below
+    const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
+    console.log(wishlistGameIds)
+  
+    const [PlayedGame] = useMutation(PLAYED_GAME);
+  
+    const handlePlayedGame = async (gameId) => {
+  
+      console.log(gameData)
+      const gameToSave = gameData.find((game) => game.gameId === gameId);
+  
+  
+      // get token
+      const token = Auth.loggedIn() ? Auth.getToken() : null;
+  
+      if (!token) {
+        return false;
+      }
+      console.log(gameToSave)
+  
+      try {
+        await PlayedGame({
+          variables: { gameToSave: { ...gameToSave } },
+        });
+  
+        // if game successfully saves to user's account, save game id to state
+        setPlayedGameIds([...wishlistGameIds, gameToSave.gameId]);
+        SaveplayedGameIds([...wishlistGameIds, gameToSave.gameId]);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
 
   return (
     <>
@@ -227,6 +260,14 @@ const Games = () => {
                       {wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === game.gameId)
                         ? 'On Wishlist'
                         : 'Save to wishlist!'}
+                    </button>
+                    <button
+                      disabled={playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === game.gameId)}
+                      className='save-button'
+                      onClick={() => handlePlayedGame(game.gameId)}>
+                      {playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === game.gameId)
+                        ? 'Played!'
+                        : 'Save as Played!'}
                     </button>
                   </div>
                 )}
