@@ -21,6 +21,7 @@ const userSchema = new Schema(
       required: true,
     },
     savedGames: [gameSchema],
+    wishlistGames: [gameSchema],
     friends: [
       {
         type: Schema.Types.ObjectId,

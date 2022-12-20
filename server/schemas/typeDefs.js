@@ -9,6 +9,7 @@ const typeDefs = gql`
         username: String!
         email: String
         savedGames: [Game]
+        wishlistGames: [Game]
         friends: [User]
     }
 
@@ -35,8 +36,10 @@ const typeDefs = gql`
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
         saveGame(gameToSave: GameInput!): User
+        wishlist(gameToSave: GameInput!): User
         addFriend(friendId: ID!): User
         deleteGame(gameId: String!): User
+        deleteWishlistGame(gameId: String!): User
     }
 
     type Auth {

@@ -39,6 +39,21 @@ export const SAVE_GAME = gql`
   }
 `;
 
+export const WISHLIST_GAME = gql`
+  mutation wishlist($gameToSave: GameInput!) {
+    wishlist (gameToSave: $gameToSave) {
+      _id
+      username
+      email
+      wishlistGames {
+        name
+        background_image
+        gameId
+      }
+    }
+  }
+`;
+
 export const Delete_GAME = gql`
   mutation deleteGame($gameId: String!) {
     deleteGame (gameId: $gameId) {
@@ -46,6 +61,21 @@ export const Delete_GAME = gql`
       username
       email
       savedGames {
+        name
+        background_image
+        gameId
+      }
+    }
+  }
+`;
+
+export const Delete_WISHLISTGAME = gql`
+  mutation deleteWishlistGame($gameId: String!) {
+    deleteWishlistGame (gameId: $gameId) {
+      _id
+      username
+      email
+      wishlistGames {
         name
         background_image
         gameId

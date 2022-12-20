@@ -15,6 +15,11 @@ export const GET_ME = gql`
         background_image
         gameId
       }
+      wishlistGames {
+        name
+        background_image
+        gameId
+      }
     }
   }
 `;
@@ -34,6 +39,11 @@ export const QUERY_USERS = gql`
         background_image
         gameId
       }
+      wishlistGames {
+        name
+        background_image
+        gameId
+      }
     }
   }
 `;
@@ -49,6 +59,11 @@ export const QUERY_USER = gql`
         username
       }
       savedGames {
+        name
+        background_image
+        gameId
+      }
+      wishlistGames {
         name
         background_image
         gameId
