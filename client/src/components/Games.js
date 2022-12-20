@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useMutation } from '@apollo/client';
 import { SAVE_GAME } from "../utils/mutations";
-import { GET_ME } from '../utils/queries';
-import { saveGameIds, getSavedGameIds } from "../utils/localStorage";
+import { saveGameIds as saveGames, getSavedGameIds } from "../utils/localStorage";
 import Auth from '../utils/auth';
 import { BASE_URL, LAST_YEAR, CURRENT_DATE, NEXT_YEAR } from '../utils/gamesApi';
 
@@ -129,10 +128,6 @@ const Games = () => {
 
   const [saveGame] = useMutation(SAVE_GAME);
 
-  useEffect(() => {
-    return () => saveGameIds(savedGameIds);
-  });
-
   const handleSaveGame = async (gameId) => {
 
     console.log(gameData)
@@ -147,27 +142,14 @@ const Games = () => {
     }
     console.log(gameToSave)
 
-    if (typeof gameToSave === 'object' &&
-      gameToSave !== null &&
-      !Array.isArray(gameToSave)
-    ) {
-      console.log('✅ Value is an object');
-    } else {
-      console.log('⛔️ Value is not an object');
-    }
-
     try {
       await saveGame({
-        variables: { game: { ...gameToSave } },
-        update: cache => {
-          const { me } = cache.readQuery({ query: GET_ME });
-          console.log(me)
-          cache.writeQuery({ query: GET_ME, data: { me: { ...me, savedGames: [...me.savedGames, gameToSave] } } })
-        }
+        variables: { gameToSave: { ...gameToSave } },
       });
 
       // if game successfully saves to user's account, save game id to state
       setSavedGameIds([...savedGameIds, gameToSave.gameId]);
+      saveGames([...savedGameIds, gameToSave.gameId]);
     } catch (err) {
       console.error(err);
     }

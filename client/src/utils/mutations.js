@@ -25,8 +25,23 @@ export const ADD_USER = gql`
 `;
 
 export const SAVE_GAME = gql`
-  mutation saveGame($game: gameData!) {
-    saveGame (game: $game) {
+  mutation saveGame($gameToSave: GameInput!) {
+    saveGame (gameToSave: $gameToSave) {
+      _id
+      username
+      email
+      savedGames {
+        name
+        background_image
+        gameId
+      }
+    }
+  }
+`;
+
+export const Delete_GAME = gql`
+  mutation deleteGame($gameId: String!) {
+    deleteGame (gameId: $gameId) {
       _id
       username
       email

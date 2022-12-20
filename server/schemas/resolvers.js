@@ -23,8 +23,8 @@ const resolvers = {
         },
         user: async (parent, { username }) => {
             return User.findOne({ username })
-            .select('-__v -password')
-            .populate('friends')
+                .select('-__v -password')
+                .populate('friends')
         },
     },
     Mutation: {
@@ -50,29 +50,40 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        saveGame: async (parent, { input }, context) => {
+        saveGame: async (parent, { gameToSave }, context) => {
             if (context.user) {
-              const updatedUser = await User.findOneAndUpdate(
-                { _id: context.user._id },
-                { $addToSet: { savedGame: gameData } },
-                { new: true }
-              );
-              return updatedUser;
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { savedGames: gameToSave } },
+                    { new: true }
+                );
+                return updatedUser;
             }
             throw new AuthenticationError("You need to be logged in!");
         },
         addFriend: async (parent, { friendId }, context) => {
             if (context.user) {
-              const updatedUser = await User.findOneAndUpdate(
-                { _id: context.user._id },
-                { $addToSet: { friends: friendId } },
-                { new: true }
-              ).populate('friends');
-          
-              return updatedUser;
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { friends: friendId } },
+                    { new: true }
+                ).populate('friends');
+
+                return updatedUser;
             }
-          
+
             throw new AuthenticationError('You need to be logged in!');
+        },
+        deleteGame: async (parent, { gameId }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedGames: { gameId: gameId } } },
+                    { new: true }
+                );
+                return updatedUser;
+            }
+            throw new AuthenticationError("You need to be logged in!");
         }
     }
 }
