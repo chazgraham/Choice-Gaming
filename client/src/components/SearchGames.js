@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Modal } from 'react-bootstrap';
 import { BASE_URL } from '../utils/gamesApi';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
-import { SAVE_GAME } from "../utils/mutations";
+import { SAVE_GAME  } from "../utils/mutations";
+import { saveGameIds as saveGames, getSavedGameIds } from "../utils/localStorage";
 
 const api_key = process.env.REACT_APP_API_KEY
 
@@ -86,18 +87,13 @@ const SearchGames = () => {
   }
 
   // save games code below
-  const [savedGameIds, setSavedGameIds] = useState([]);
-
-  useEffect(() => {
-    return () => savedGameIds;
-  });
+  const [savedGameIds, setSavedGameIds] = useState(getSavedGameIds());
 
   const [saveGame] = useMutation(SAVE_GAME);
 
   const handleSaveGame = async (gameId) => {
-    // find the game in `searchedGame` state by the matching id
     const gameToSave = searchedGame.find((game) => game.gameId === gameId);
-    console.log(gameToSave)
+
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -105,21 +101,16 @@ const SearchGames = () => {
     if (!token) {
       return false;
     }
+    console.log(gameToSave)
 
     try {
-      const response = await saveGame({
-        variables: {
-          GameData: { ...gameToSave },
-        },
+      await saveGame({
+        variables: { gameToSave: { ...gameToSave } },
       });
-      console.log(response)
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      // if book successfully saves to user's account, save game id to state
-      setSavedGameIds([...savedGameIds, gameToSave.bookId]);
+      // if game successfully saves to user's account, save game id to state
+      setSavedGameIds([...savedGameIds, gameToSave.gameId]);
+      saveGames([...savedGameIds, gameToSave.gameId]);
     } catch (err) {
       console.error(err);
     }
