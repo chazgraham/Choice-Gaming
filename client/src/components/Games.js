@@ -214,8 +214,8 @@ const Games = () => {
         });
   
         // if game successfully saves to user's account, save game id to state
-        setPlayedGameIds([...wishlistGameIds, gameToSave.gameId]);
-        SaveplayedGameIds([...wishlistGameIds, gameToSave.gameId]);
+        setPlayedGameIds([...playedGameIds, gameToSave.gameId]);
+        SaveplayedGameIds([...playedGameIds, gameToSave.gameId]);
       } catch (err) {
         console.error(err);
       }

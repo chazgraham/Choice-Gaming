@@ -3,8 +3,8 @@ import { Jumbotron, Container, Col, Form, Button, Modal } from 'react-bootstrap'
 import { BASE_URL } from '../utils/gamesApi';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
-import { SAVE_GAME  } from "../utils/mutations";
-import { saveGameIds as saveGames, getSavedGameIds } from "../utils/localStorage";
+import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../utils/mutations";
+import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds,  SaveplayedGameIds } from "../utils/localStorage";
 
 const api_key = process.env.REACT_APP_API_KEY
 
@@ -116,6 +116,68 @@ const SearchGames = () => {
     }
   };
 
+      // save games code below
+      const [wishlistGameIds, setWishlistGameIds] = useState(getWishlistGameIds());
+    
+      const [wishlistGame] = useMutation(WISHLIST_GAME);
+    
+      const handlewishlistGame = async (gameId) => {
+    
+        const gameToSave = searchedGame.find((game) => game.gameId === gameId);
+    
+        // get token
+        const token = Auth.loggedIn() ? Auth.getToken() : null;
+    
+        if (!token) {
+          return false;
+        }
+        console.log(gameToSave)
+    
+        try {
+          await wishlistGame({
+            variables: { gameToSave: { ...gameToSave } },
+          });
+    
+          // if game successfully saves to user's account, save game id to state
+          setWishlistGameIds([...wishlistGameIds, gameToSave.gameId]);
+          saveWishlistIds([...wishlistGameIds, gameToSave.gameId]);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+
+          // save games code below
+    const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
+    console.log(wishlistGameIds)
+  
+    const [PlayedGame] = useMutation(PLAYED_GAME);
+  
+    const handlePlayedGame = async (gameId) => {
+  
+      const gameToSave = searchedGame.find((game) => game.gameId === gameId);
+  
+  
+      // get token
+      const token = Auth.loggedIn() ? Auth.getToken() : null;
+  
+      if (!token) {
+        return false;
+      }
+      console.log(gameToSave)
+  
+      try {
+        await PlayedGame({
+          variables: { gameToSave: { ...gameToSave } },
+        });
+  
+        // if game successfully saves to user's account, save game id to state
+        setPlayedGameIds([...playedGameIds, gameToSave.gameId]);
+        SaveplayedGameIds([...playedGameIds, gameToSave.gameId]);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
   return (
     <>
       <Jumbotron fluid className='text-light'>
@@ -166,6 +228,22 @@ const SearchGames = () => {
                       {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
                         ? 'saved!'
                         : 'Save Game!'}
+                    </button>
+                    <button
+                      disabled={wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === game.gameId)}
+                      className='save-button'
+                      onClick={() => handlewishlistGame(game.gameId)}>
+                      {wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === game.gameId)
+                        ? 'On Wishlist'
+                        : 'Save to wishlist!'}
+                    </button>
+                    <button
+                      disabled={playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === game.gameId)}
+                      className='save-button'
+                      onClick={() => handlePlayedGame(game.gameId)}>
+                      {playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === game.gameId)
+                        ? 'Played!'
+                        : 'Save as Played!'}
                     </button>
                   </div>
                 )}
