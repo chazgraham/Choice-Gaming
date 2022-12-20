@@ -21,6 +21,8 @@ const Profile = () => {
     variables: { username: userParam }
   });
 
+
+  // Add friend
   const handleClick = async () => {
     try {
       await addFriend({
@@ -55,8 +57,6 @@ const Profile = () => {
     const gameGenres = game.genres;
     const gameRating = game.rating;
     const gameRelease = game.released
-
-    console.log(gameRelease)
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
@@ -159,10 +159,14 @@ const Profile = () => {
           </Modal.Footer>
         </Modal>
 
+        {Auth.loggedIn() && (
+          <div>
         {userParam && (
           <button className="btn ml-auto" onClick={handleClick}>
             Add Friend
           </button>
+        )}
+        </div>
         )}
       </div>
 
