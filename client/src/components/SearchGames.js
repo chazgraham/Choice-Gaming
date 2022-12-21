@@ -63,16 +63,12 @@ const SearchGames = () => {
   // Gets the games ID from searchGame and passes it through api call to get details
   const getDetails = async (gameId) => {
     const gameDetail = searchedGame.find((game) => game.gameId === gameId);
-    console.log(gameDetail)
     const gameID = gameDetail.gameId
-    console.log(gameID)
 
     const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`)
     const game = await response.json();
-    console.log(game)
 
     const gameDescription = game.description
-    console.log(gameDescription)
     const gamePlatform = game.platforms
     const gameGenres = game.genres;
     const gameRating = game.rating;
@@ -101,7 +97,6 @@ const SearchGames = () => {
     if (!token) {
       return false;
     }
-    console.log(gameToSave)
 
     try {
       await saveGame({
@@ -131,7 +126,6 @@ const SearchGames = () => {
         if (!token) {
           return false;
         }
-        console.log(gameToSave)
     
         try {
           await wishlistGame({
@@ -148,7 +142,6 @@ const SearchGames = () => {
 
           // save games code below
     const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
-    console.log(wishlistGameIds)
   
     const [PlayedGame] = useMutation(PLAYED_GAME);
   
@@ -163,7 +156,6 @@ const SearchGames = () => {
       if (!token) {
         return false;
       }
-      console.log(gameToSave)
   
       try {
         await PlayedGame({

@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER, GET_ME } from '../utils/queries';
-import FriendList from '../components/FriendList';
+import FriendList from '../components/FriendsList';
 import Auth from '../utils/auth';
 import { ADD_FRIEND, Delete_GAME, Delete_WISHLISTGAME, Delete_PLAYEDGAME } from '../utils/mutations';
 import { deleteGameId, deleteWishlistGameId, deletePlayedGameId } from '../utils/localStorage';
@@ -37,7 +37,6 @@ const Profile = () => {
   };
 
   const user = data?.me || data?.user || {};
-  console.log(user)
 
   // Differnt values for game details
   const [gameDescription, setGameDescription] = useState([])
@@ -89,7 +88,6 @@ const Profile = () => {
 
   const handleDeleteGame = async (gameId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log(gameId)
 
     if (!token) {
       return false;
@@ -108,7 +106,6 @@ const Profile = () => {
 
   const handleDeleteWishlistGame = async (gameId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log(gameId)
 
     if (!token) {
       return false;
@@ -127,8 +124,6 @@ const Profile = () => {
 
   const handleDeletePlayedGame = async (gameId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log(gameId)
-
     if (!token) {
       return false;
     }
@@ -144,13 +139,6 @@ const Profile = () => {
     }
   }
 
-  console.log(data.me)
-  console.log(user.username)
-  console.log(user.friends)
-  let friend = user.friends
-  for (let i in friend) {
-    console.log(friend[i].username)
-  }
   return (
     <div>
       <div className="profile-h2">
@@ -179,7 +167,7 @@ const Profile = () => {
           />
         </Col>
 
-        <Col className="flex-row">
+        <Col>
           <div className='profile-h3'>
             <h3>Playing</h3>
           </div>
@@ -203,7 +191,7 @@ const Profile = () => {
           ))}
         </Col>
 
-        <Col className="flex-row">
+        <Col>
           <div className='profile-h3'>
             <h3>Wishlist</h3>
           </div>
@@ -227,7 +215,7 @@ const Profile = () => {
           ))}
         </Col>
 
-        <Col className="flex-row">
+        <Col>
           <div className='profile-h3'>
             <h3>Completed</h3>
           </div>

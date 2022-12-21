@@ -6,6 +6,7 @@ import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../utils/mutations";
 import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds,  SaveplayedGameIds } from "../utils/localStorage";
 import Auth from '../utils/auth';
 import { BASE_URL, LAST_YEAR, CURRENT_DATE, NEXT_YEAR } from '../utils/gamesApi';
+import { Container } from "react-bootstrap";
 
 const api_key = process.env.REACT_APP_API_KEY
 
@@ -23,7 +24,6 @@ const Games = () => {
 
       const games = await response.json();
       const game = games.results;
-      console.log(game)
 
       const gameData = game.map((game) => ({
         name: game.name,
@@ -111,8 +111,6 @@ const Games = () => {
     const gameRating = game.rating;
     const gameRelease = game.released
 
-    console.log(gameRelease)
-
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
     setGameGenres(gameGenres);
@@ -140,7 +138,6 @@ const Games = () => {
     if (!token) {
       return false;
     }
-    console.log(gameToSave)
 
     try {
       await saveGame({
@@ -157,15 +154,12 @@ const Games = () => {
 
     // save games code below
     const [wishlistGameIds, setWishlistGameIds] = useState(getWishlistGameIds());
-    console.log(wishlistGameIds)
   
     const [wishlistGame] = useMutation(WISHLIST_GAME);
   
     const handlewishlistGame = async (gameId) => {
   
-      console.log(gameData)
       const gameToSave = gameData.find((game) => game.gameId === gameId);
-  
   
       // get token
       const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -173,7 +167,6 @@ const Games = () => {
       if (!token) {
         return false;
       }
-      console.log(gameToSave)
   
       try {
         await wishlistGame({
@@ -190,13 +183,11 @@ const Games = () => {
 
     // save games code below
     const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
-    console.log(wishlistGameIds)
   
     const [PlayedGame] = useMutation(PLAYED_GAME);
   
     const handlePlayedGame = async (gameId) => {
   
-      console.log(gameData)
       const gameToSave = gameData.find((game) => game.gameId === gameId);
   
   
@@ -206,7 +197,6 @@ const Games = () => {
       if (!token) {
         return false;
       }
-      console.log(gameToSave)
   
       try {
         await PlayedGame({
@@ -237,7 +227,7 @@ const Games = () => {
           </button>
         </div>
 
-        <div className="flex-row">
+        <Container className="flex-row">
           {gameData.map((game) => (
             <div className="game-card" key={game.name}>
               <h4>{game.name}</h4>
@@ -275,7 +265,7 @@ const Games = () => {
               <button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>
             </div>
           ))}
-        </div>
+        </Container>
         <Modal show={show} onHide={handleClose}>
           <p>{gameRating === 0
             ? 'Currently Unrated'

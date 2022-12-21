@@ -15,7 +15,7 @@ const AppNavbar = () => {
       <Navbar variant='dark' expand='lg'>
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
-            <h1>Choice Gaming</h1>
+            <h1>Game Seeker</h1>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar'>

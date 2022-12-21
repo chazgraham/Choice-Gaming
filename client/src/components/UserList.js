@@ -7,7 +7,6 @@ import { QUERY_USERS} from '../utils/queries';
 const UserList = () => {
     const {  data } = useQuery(QUERY_USERS);
     const users = data?.users || [];
-    console.log(users);
 
     if (!users.length) {
         return <h3>No users Yet</h3>;
