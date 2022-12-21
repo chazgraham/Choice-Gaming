@@ -17,7 +17,7 @@ const Games = () => {
   // Gets a list of 10 popular games
   const getPopular = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=10`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=20`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -41,7 +41,7 @@ const Games = () => {
   // Gets a list of 10 Upcoming games
   const getUpcoming = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${CURRENT_DATE},${NEXT_YEAR}&ordering=-rating&page_size=10`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${CURRENT_DATE},${NEXT_YEAR}&ordering=-rating&page_size=20`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -65,7 +65,7 @@ const Games = () => {
   // Gets a list of 10 New games
   const getNew = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-released&page_size=10`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-released&page_size=20`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
