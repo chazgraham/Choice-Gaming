@@ -11,7 +11,7 @@ import { deleteGameId, deleteWishlistGameId, deletePlayedGameId } from '../utils
 import { BASE_URL } from '../utils/gamesApi';
 import { Col, Row } from 'react-bootstrap';
 
-const api_key = process.env.REACT_APP_API_KEY
+const api_key = '7ed816ff62b4460aa987135932b168c3'
 
 const Profile = () => {
   const [addFriend] = useMutation(ADD_FRIEND);
