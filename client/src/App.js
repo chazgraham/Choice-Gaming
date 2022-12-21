@@ -1,4 +1,5 @@
 import React from 'react';
+require('dotenv').config();
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Route, Routes, } from 'react-router-dom';
@@ -11,7 +12,6 @@ import Profile from './pages/Profile';
 import UserList from './components/UserList';
 import Footer from './components/Footer';
 
-require('dotenv').config();
 
 const httpLink = createHttpLink({
   uri: '/graphql',
