@@ -4,7 +4,7 @@ import { BASE_URL } from '../utils/gamesApi';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../utils/mutations";
-import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds,  SaveplayedGameIds } from "../utils/localStorage";
+import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds, SaveplayedGameIds } from "../utils/localStorage";
 
 const api_key = '7ed816ff62b4460aa987135932b168c3'
 
@@ -111,64 +111,64 @@ const SearchGames = () => {
     }
   };
 
-      // save games code below
-      const [wishlistGameIds, setWishlistGameIds] = useState(getWishlistGameIds());
-    
-      const [wishlistGame] = useMutation(WISHLIST_GAME);
-    
-      const handlewishlistGame = async (gameId) => {
-    
-        const gameToSave = searchedGame.find((game) => game.gameId === gameId);
-    
-        // get token
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
-    
-        if (!token) {
-          return false;
-        }
-    
-        try {
-          await wishlistGame({
-            variables: { gameToSave: { ...gameToSave } },
-          });
-    
-          // if game successfully saves to user's account, save game id to state
-          setWishlistGameIds([...wishlistGameIds, gameToSave.gameId]);
-          saveWishlistIds([...wishlistGameIds, gameToSave.gameId]);
-        } catch (err) {
-          console.error(err);
-        }
-      };
+  // save games code below
+  const [wishlistGameIds, setWishlistGameIds] = useState(getWishlistGameIds());
 
-          // save games code below
-    const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
-  
-    const [PlayedGame] = useMutation(PLAYED_GAME);
-  
-    const handlePlayedGame = async (gameId) => {
-  
-      const gameToSave = searchedGame.find((game) => game.gameId === gameId);
-  
-  
-      // get token
-      const token = Auth.loggedIn() ? Auth.getToken() : null;
-  
-      if (!token) {
-        return false;
-      }
-  
-      try {
-        await PlayedGame({
-          variables: { gameToSave: { ...gameToSave } },
-        });
-  
-        // if game successfully saves to user's account, save game id to state
-        setPlayedGameIds([...playedGameIds, gameToSave.gameId]);
-        SaveplayedGameIds([...playedGameIds, gameToSave.gameId]);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  const [wishlistGame] = useMutation(WISHLIST_GAME);
+
+  const handlewishlistGame = async (gameId) => {
+
+    const gameToSave = searchedGame.find((game) => game.gameId === gameId);
+
+    // get token
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      await wishlistGame({
+        variables: { gameToSave: { ...gameToSave } },
+      });
+
+      // if game successfully saves to user's account, save game id to state
+      setWishlistGameIds([...wishlistGameIds, gameToSave.gameId]);
+      saveWishlistIds([...wishlistGameIds, gameToSave.gameId]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // save games code below
+  const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
+
+  const [PlayedGame] = useMutation(PLAYED_GAME);
+
+  const handlePlayedGame = async (gameId) => {
+
+    const gameToSave = searchedGame.find((game) => game.gameId === gameId);
+
+
+    // get token
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      await PlayedGame({
+        variables: { gameToSave: { ...gameToSave } },
+      });
+
+      // if game successfully saves to user's account, save game id to state
+      setPlayedGameIds([...playedGameIds, gameToSave.gameId]);
+      SaveplayedGameIds([...playedGameIds, gameToSave.gameId]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -218,8 +218,8 @@ const SearchGames = () => {
                       className='save-button'
                       onClick={() => handleSaveGame(game.gameId)}>
                       {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
-                        ? 'saved!'
-                        : 'Save Game!'}
+                        ? 'Playing!'
+                        : 'Set as playing!'}
                     </button>
                     <button
                       disabled={wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === game.gameId)}
