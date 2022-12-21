@@ -19,13 +19,12 @@ const UserList = () => {
                 <h3>Explore other Users!</h3>
                 <CardColumns>
                     {users.map(users => (
-                        <Card key={users._id}>
+                        <Card className='user-cards' key={users._id}>
                             <Card.Body>
                                 <Card.Title>
                                     <Link
                                         to={`/profile/${users.username}`}
                                         style={{ fontWeight: 700 }}
-                                        className="text-dark"
                                     >
                                         {users.username}
                                     </Link>{' '}

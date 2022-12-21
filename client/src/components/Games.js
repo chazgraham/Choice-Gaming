@@ -250,8 +250,8 @@ const Games = () => {
                       className='save-button'
                       onClick={() => handleSaveGame(game.gameId)}>
                       {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
-                        ? 'saved!'
-                        : 'Save Game!'}
+                        ? 'Playing!'
+                        : 'Set as playing!'}
                     </button>
                     <button
                       disabled={wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === game.gameId)}
@@ -266,8 +266,8 @@ const Games = () => {
                       className='save-button'
                       onClick={() => handlePlayedGame(game.gameId)}>
                       {playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === game.gameId)
-                        ? 'Played!'
-                        : 'Save as Played!'}
+                        ? 'Completed!'
+                        : 'Save as Completed!'}
                     </button>
                   </div>
                 )}
