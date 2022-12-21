@@ -5,6 +5,7 @@
 
 ## Descripton
 An application that uses apollo servers working with mongoDB to provide a back-end database and React for the front-end. The application uses GraphQL mutations and queries to add and delete information to the users model. The application uses API calls to get access to RAWGs gaming library.
+Link to deployed application can be found here https://game-seeker.herokuapp.com/
 ![](./client/src/assests/application-1.jpg)
 ![](./client/src/assests/application-2.jpg)
 
