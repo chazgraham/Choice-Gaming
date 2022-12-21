@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/client';
 import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../utils/mutations";
 import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds,  SaveplayedGameIds } from "../utils/localStorage";
 
-const api_key = '7ed816ff62b4460aa987135932b168c3'
+const api_key = process.env.REACT_APP_API_KEY
 
 const SearchGames = () => {
   const [searchedGame, setSearchedGame] = useState([]);

@@ -11,6 +11,8 @@ import Profile from './pages/Profile';
 import UserList from './components/UserList';
 import Footer from './components/Footer';
 
+require('dotenv').config();
+
 
 const httpLink = createHttpLink({
   uri: '/graphql',
