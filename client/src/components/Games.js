@@ -8,7 +8,7 @@ import Auth from '../utils/auth';
 import { BASE_URL, LAST_YEAR, CURRENT_DATE, NEXT_YEAR } from '../utils/gamesApi';
 import { Container } from "react-bootstrap";
 
-const api_key = process.env.REACT_APP_API_KEY
+const api_key = '7ed816ff62b4460aa987135932b168c3'
 console.log(api_key)
 
 const Games = () => {
