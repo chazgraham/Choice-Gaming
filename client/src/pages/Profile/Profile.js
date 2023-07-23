@@ -3,12 +3,12 @@ import { Navigate, useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_USER, GET_ME } from '../utils/queries';
-import FriendList from '../components/FriendsList';
-import Auth from '../utils/auth';
-import { ADD_FRIEND, Delete_GAME, Delete_WISHLISTGAME, Delete_PLAYEDGAME } from '../utils/mutations';
-import { deleteGameId, deleteWishlistGameId, deletePlayedGameId } from '../utils/localStorage';
-import { BASE_URL } from '../utils/gamesApi';
+import { QUERY_USER, GET_ME } from '../../utils/queries';
+import FriendList from '../../components/FriendsList/FriendsList';
+import Auth from '../../utils/auth';
+import { ADD_FRIEND, Delete_GAME, Delete_WISHLISTGAME, Delete_PLAYEDGAME } from '../../utils/mutations';
+import { deleteGameId, deleteWishlistGameId, deletePlayedGameId } from '../../utils/localStorage';
+import { BASE_URL } from '../../utils/gamesApi';
 import { Col, Row } from 'react-bootstrap';
 
 const api_key = '7ed816ff62b4460aa987135932b168c3'

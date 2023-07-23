@@ -5,11 +5,11 @@ import { BrowserRouter as Router, Route, Routes, } from 'react-router-dom';
 import './App.css';
 import './index.css';
 
-import Navbar from './components/Navbar';
-import HomePage from './pages/HomePage';
-import Profile from './pages/Profile';
-import UserList from './components/UserList';
-import Footer from './components/Footer';
+import Navbar from './components/Header/Navbar';
+import HomePage from './pages/Home/Home';
+import Profile from './pages/Profile/Profile';
+import UserList from './pages/UserList/UserList';
+import Footer from './components/Footer/Footer';
 
 require('dotenv').config();
 

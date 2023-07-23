@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import { Jumbotron, Container, Col, Form, Button, Modal } from 'react-bootstrap';
-import { BASE_URL } from '../utils/gamesApi';
-import Auth from '../utils/auth';
+import React, { useState } from "react";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import { useMutation } from '@apollo/client';
-import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../utils/mutations";
-import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds, SaveplayedGameIds } from "../utils/localStorage";
+import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../../utils/mutations";
+import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds,  SaveplayedGameIds } from "../../utils/localStorage";
+import Auth from '../../utils/auth';
+import { BASE_URL, LAST_YEAR, CURRENT_DATE, NEXT_YEAR } from '../../utils/gamesApi';
+import { Container,Jumbotron, Form, Col } from "react-bootstrap";
 
 const api_key = '7ed816ff62b4460aa987135932b168c3'
 
-const SearchGames = () => {
-  const [searchedGame, setSearchedGame] = useState([]);
+const Home = () => {
+  const [gameData, setGameData] = useState([]);
   const [searchedInput, setSearchInput] = useState('');
 
-  // Sets the forms input to searchedGame state then runs it through api call
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -36,40 +37,111 @@ const SearchGames = () => {
         gameId: game.id
       }));
 
-      setSearchedGame(gameData);
+      setGameData(gameData);
       setSearchInput('');
     } catch (err) {
       console.error(err);
     }
   }
 
-  // Clear button
   const clearSearch = (event) => {
-    window.location.reload()
+    setGameData([])
   }
 
-  // Different values for the games details
+  // Gets a list of 10 popular games
+  const getPopular = async (event) => {
+    try {
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=20`)
+
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
+
+      const games = await response.json();
+      const game = games.results;
+
+      const gameData = game.map((game) => ({
+        name: game.name,
+        background_image: game.background_image,
+        gameId: game.id
+      }));
+
+      setGameData(gameData);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // Gets a list of 10 Upcoming games
+  const getUpcoming = async (event) => {
+    try {
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${CURRENT_DATE},${NEXT_YEAR}&ordering=-rating&page_size=20`)
+
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
+
+      const games = await response.json();
+      const game = games.results;
+
+      const gameData = game.map((game) => ({
+        name: game.name,
+        background_image: game.background_image,
+        gameId: game.id
+      }));
+
+      setGameData(gameData);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // Gets a list of 10 New games
+  const getNew = async (event) => {
+    try {
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-released&page_size=20`)
+
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
+
+      const games = await response.json();
+      const game = games.results;
+
+      const gameData = game.map((game) => ({
+        name: game.name,
+        background_image: game.background_image,
+        gameId: game.id
+      }));
+
+      setGameData(gameData);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // Differnt values for game details
   const [gameDescription, setGameDescription] = useState([])
   const [gamePlatform, setGamePlatform] = useState([])
   const [gameGenre, setGameGenres] = useState([])
   const [gameRating, setGameRating] = useState([])
   const [gameReleaseDate, setGameReleaseDate] = useState([])
 
-  // Controlls the model that shows the games details
+  //handles detail model 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // Gets the games ID from searchGame and passes it through api call to get details
+  // Gets the games ID from gameData and passes it through api call to get details 
   const getDetails = async (gameId) => {
-    const gameDetail = searchedGame.find((game) => game.gameId === gameId);
-    const gameID = gameDetail.gameId
+    const gameDetail = gameData.find((game) => game.gameId === gameId);
+    const gameID = gameDetail.gameId;
 
-    const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`)
+    const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`);
     const game = await response.json();
 
-    const gameDescription = game.description
-    const gamePlatform = game.platforms
+    const gameDescription = game.description;
+    const gamePlatform = game.platforms;
     const gameGenres = game.genres;
     const gameRating = game.rating;
     const gameRelease = game.released
@@ -82,13 +154,17 @@ const SearchGames = () => {
     handleShow()
   }
 
+
   // save games code below
   const [savedGameIds, setSavedGameIds] = useState(getSavedGameIds());
+  //console.log(savedGameIds)
 
   const [saveGame] = useMutation(SAVE_GAME);
 
   const handleSaveGame = async (gameId) => {
-    const gameToSave = searchedGame.find((game) => game.gameId === gameId);
+
+    console.log(gameData)
+    const gameToSave = gameData.find((game) => game.gameId === gameId);
 
 
     // get token
@@ -111,68 +187,69 @@ const SearchGames = () => {
     }
   };
 
-  // save games code below
-  const [wishlistGameIds, setWishlistGameIds] = useState(getWishlistGameIds());
+    // save games code below
+    const [wishlistGameIds, setWishlistGameIds] = useState(getWishlistGameIds());
+  
+    const [wishlistGame] = useMutation(WISHLIST_GAME);
+  
+    const handlewishlistGame = async (gameId) => {
+  
+      const gameToSave = gameData.find((game) => game.gameId === gameId);
+  
+      // get token
+      const token = Auth.loggedIn() ? Auth.getToken() : null;
+  
+      if (!token) {
+        return false;
+      }
+  
+      try {
+        await wishlistGame({
+          variables: { gameToSave: { ...gameToSave } },
+        });
+  
+        // if game successfully saves to user's account, save game id to state
+        setWishlistGameIds([...wishlistGameIds, gameToSave.gameId]);
+        saveWishlistIds([...wishlistGameIds, gameToSave.gameId]);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  const [wishlistGame] = useMutation(WISHLIST_GAME);
+    // save games code below
+    const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
+  
+    const [PlayedGame] = useMutation(PLAYED_GAME);
+  
+    const handlePlayedGame = async (gameId) => {
+  
+      const gameToSave = gameData.find((game) => game.gameId === gameId);
+  
+  
+      // get token
+      const token = Auth.loggedIn() ? Auth.getToken() : null;
+  
+      if (!token) {
+        return false;
+      }
+  
+      try {
+        await PlayedGame({
+          variables: { gameToSave: { ...gameToSave } },
+        });
+  
+        // if game successfully saves to user's account, save game id to state
+        setPlayedGameIds([...playedGameIds, gameToSave.gameId]);
+        SaveplayedGameIds([...playedGameIds, gameToSave.gameId]);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  const handlewishlistGame = async (gameId) => {
-
-    const gameToSave = searchedGame.find((game) => game.gameId === gameId);
-
-    // get token
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-    if (!token) {
-      return false;
-    }
-
-    try {
-      await wishlistGame({
-        variables: { gameToSave: { ...gameToSave } },
-      });
-
-      // if game successfully saves to user's account, save game id to state
-      setWishlistGameIds([...wishlistGameIds, gameToSave.gameId]);
-      saveWishlistIds([...wishlistGameIds, gameToSave.gameId]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // save games code below
-  const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
-
-  const [PlayedGame] = useMutation(PLAYED_GAME);
-
-  const handlePlayedGame = async (gameId) => {
-
-    const gameToSave = searchedGame.find((game) => game.gameId === gameId);
-
-
-    // get token
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-    if (!token) {
-      return false;
-    }
-
-    try {
-      await PlayedGame({
-        variables: { gameToSave: { ...gameToSave } },
-      });
-
-      // if game successfully saves to user's account, save game id to state
-      setPlayedGameIds([...playedGameIds, gameToSave.gameId]);
-      SaveplayedGameIds([...playedGameIds, gameToSave.gameId]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <>
-      <Jumbotron fluid className='text-light'>
+         <Jumbotron fluid className='text-light'>
         <Container>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
@@ -198,15 +275,21 @@ const SearchGames = () => {
           </Form>
         </Container>
       </Jumbotron>
+      <div className="card-container">
+        <div className="gamesBtn">
+          <button className="btn-1" onClick={getPopular}>
+            Popular Games
+          </button>
+          <button className="btn-1" onClick={getUpcoming}>
+            upcoming Games
+          </button>
+          <button className="btn-1" onClick={getNew}>
+            New Games
+          </button>
+        </div>
 
-      <Container>
-        <h2 className='viewing'>
-          {searchedGame.length
-            ? `Viewing ${searchedGame.length} results:`
-            : ''}
-        </h2>
-        <div className="flex-row">
-          {searchedGame.map((game) => (
+        <Container className="flex-row">
+          {gameData.map((game) => (
             <div className="game-card" key={game.name}>
               <h4>{game.name}</h4>
               <div className="overlay-position">
@@ -234,8 +317,8 @@ const SearchGames = () => {
                       className='save-button'
                       onClick={() => handlePlayedGame(game.gameId)}>
                       {playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === game.gameId)
-                        ? 'Played!'
-                        : 'Save as Played!'}
+                        ? 'Completed!'
+                        : 'Save as Completed!'}
                     </button>
                   </div>
                 )}
@@ -243,7 +326,7 @@ const SearchGames = () => {
               <button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>
             </div>
           ))}
-        </div>
+        </Container>
         <Modal show={show} onHide={handleClose}>
           <p>{gameRating === 0
             ? 'Currently Unrated'
@@ -272,9 +355,9 @@ const SearchGames = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-      </Container>
+      </div>
     </>
   )
 }
 
-export default SearchGames;
+export default Home;
