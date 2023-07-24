@@ -283,12 +283,10 @@ const Home = () => {
   return (
     <>
       <section>
-        <div className="wrap">
           <form className="search" onSubmit={handleFormSubmit}>
             <input className="searchTerm" type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
             <button className="searchButton" type="submit"><i class="fa fa-search"></i></button>
           </form>
-        </div>
         <div className="card_container">
           {gameData.map((game) => (
             <div className="game_card">
@@ -363,11 +361,13 @@ const Home = () => {
       </section>
       <section>
         <Modal show={show} onHide={handleClose} className="modal">
-          <p>{gameRating === 0
-            ? 'Currently Unrated'
-            : `Rating: ${gameRating} out of 5`}
-          </p>
-          <p>Released on: {gameReleaseDate}</p>
+          <Modal.Header>
+            <p>{gameRating === 0
+              ? 'Currently Unrated'
+              : `Rating: ${gameRating} out of 5`}
+            </p>
+            <p>Released on: {gameReleaseDate}</p>
+          </Modal.Header>
           <Modal.Header>
             <Modal.Title>Description</Modal.Title>
           </Modal.Header>
@@ -380,7 +380,7 @@ const Home = () => {
           ))}</Modal.Body>
           {Auth.loggedIn() && (
             <Modal.Body>
-              <Button 
+              <Button
                 variant="secondary"
                 disabled={savedGameIds?.some((savedGameId) => savedGameId === gameSaveId)}
                 className='save-button'
@@ -389,7 +389,7 @@ const Home = () => {
                   ? 'Playing!'
                   : 'Set as playing!'}
               </Button>
-              <Button 
+              <Button
                 variant="secondary"
                 disabled={wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === gameSaveId)}
                 className='save-button'
