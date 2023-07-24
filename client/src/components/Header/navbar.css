@@ -6,15 +6,17 @@
     margin: 15px;
     padding: 20px;
     box-shadow:  0px 0px 6px #d8d7e9;
-    background-color: #050717;
+    background-color: #202020;
 }
 
 .title {
     margin-left: 100px;
+    color: #d8d7e9;
 }
 
 .title:hover {
     text-decoration: none;
+    color: white;
 }
 
 .nav_list {
@@ -26,8 +28,10 @@
 
 .nav_link {
     margin-right: 10px;
+    color: #d8d7e9;
 }
 
 .nav_link:hover {
     text-decoration: none;
+    color: white;
 }

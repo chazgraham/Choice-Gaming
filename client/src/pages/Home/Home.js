@@ -52,10 +52,6 @@ const Home = () => {
     }
   }
 
-  const clearSearch = (event) => {
-    setGameData([])
-  }
-
   // Gets a list of 10 popular games
   useEffect(() => {
     getPopular()
@@ -291,14 +287,13 @@ const Home = () => {
           <form className="search" onSubmit={handleFormSubmit}>
             <input className="searchTerm" type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
             <button className="searchButton" type="submit"><i class="fa fa-search"></i></button>
-            <button className="clear_btn" onClick={clearSearch}>Clear</button>
           </form>
         </div>
         <div className="card_container">
           {gameData.map((game) => (
             <div className="game_card">
               <img className="game_img" src={game.background_image} alt={game.name} />
-              <div className="overlay">
+              <div className="overlay" onClick={() => getDetails(game.gameId)}>
                 <p className="game_title_overlay">{game.name}</p>
                 <div className="genre_list">
                   {game.genres.map((genre) => (
@@ -367,7 +362,7 @@ const Home = () => {
         </div>
       </section>
       <section>
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} className="modal">
           <p>{gameRating === 0
             ? 'Currently Unrated'
             : `Rating: ${gameRating} out of 5`}
@@ -385,7 +380,8 @@ const Home = () => {
           ))}</Modal.Body>
           {Auth.loggedIn() && (
             <Modal.Body>
-              <Button
+              <Button 
+                variant="secondary"
                 disabled={savedGameIds?.some((savedGameId) => savedGameId === gameSaveId)}
                 className='save-button'
                 onClick={() => handleSaveGame(gameSaveId)}>
@@ -393,7 +389,8 @@ const Home = () => {
                   ? 'Playing!'
                   : 'Set as playing!'}
               </Button>
-              <Button
+              <Button 
+                variant="secondary"
                 disabled={wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === gameSaveId)}
                 className='save-button'
                 onClick={() => handlewishlistGame(gameSaveId)}>
@@ -402,6 +399,7 @@ const Home = () => {
                   : 'Save to wishlist!'}
               </Button>
               <Button
+                variant="secondary"
                 disabled={playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === gameSaveId)}
                 className='save-button'
                 onClick={() => handlePlayedGame(gameSaveId)}>
