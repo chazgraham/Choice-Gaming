@@ -54,8 +54,8 @@ function App() {
               element={<UserList />}
             />
           </Routes>
+          <Footer />
       </Router>
-      <Footer />
     </ApolloProvider>
   );
 }
