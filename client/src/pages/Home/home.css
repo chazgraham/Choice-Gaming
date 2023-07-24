@@ -1,11 +1,50 @@
 h2 {
     color: rgb(205, 205, 205);
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .main_container {
     margin: 20px;
 }
+
+.wrap {
+    text-align: end;
+}
+
+.search {
+    height: 34px;
+    margin-right: 30px;
+}
+
+.searchTerm {
+    border: 3px solid #1f3b4d;
+    background-color: #1f3b4d;
+    border-right: none;
+    padding: 5px;
+    height: 30px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+    box-shadow: 0px 0px 2px #d8d7e9;
+}
+
+.searchTerm:focus {
+    color: white;
+}
+
+.searchButton {
+    width: 40px;
+    height: 31px;
+    border: 1px solid #1f3b4d;
+    background: #1f3b4d;
+    color: #777777;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1.2px;
+    box-shadow: 0px 0px 2px #d8d7e9;
+}
+
 
 .card_container {
     display: flex;
@@ -20,7 +59,7 @@ h2 {
 .game_img {
     width: 200px;
     height: 150px;
-    box-shadow:  0px 0px 2px #d8d7e9;
+    box-shadow: 0px 0px 2px #d8d7e9;
 }
 
 .overlay {

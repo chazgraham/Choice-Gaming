@@ -7,7 +7,6 @@ import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../../utils/mutations";
 import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds, SaveplayedGameIds } from "../../utils/localStorage";
 import Auth from '../../utils/auth';
 import { BASE_URL, LAST_YEAR, CURRENT_DATE, NEXT_YEAR } from '../../utils/gamesApi';
-import { Container } from "react-bootstrap";
 
 const api_key = '7ed816ff62b4460aa987135932b168c3'
 
@@ -175,7 +174,7 @@ const Home = () => {
       background_image: game.background_image,
       gameId: game.id,
     }
-    
+
 
     const gameDescription = game.description_raw;
     const gamePlatform = game.platforms;
@@ -243,7 +242,7 @@ const Home = () => {
 
     try {
       await wishlistGame({
-        variables: { gameToSave: {...gameToSave}  },
+        variables: { gameToSave: { ...gameToSave } },
       });
 
       // if game successfully saves to user's account, save game id to state
@@ -288,11 +287,13 @@ const Home = () => {
   return (
     <>
       <section>
-        <form onSubmit={handleFormSubmit}>
-          <input type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
-          <button type="submit">Submit</button>
-          <button onClick={clearSearch}>Clear</button>
-        </form>
+        <div className="wrap">
+          <form className="search" onSubmit={handleFormSubmit}>
+            <input className="searchTerm" type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
+            <button className="searchButton" type="submit"><i class="fa fa-search"></i></button>
+            <button className="clear_btn" onClick={clearSearch}>Clear</button>
+          </form>
+        </div>
         <div className="card_container">
           {gameData.map((game) => (
             <div className="game_card">
