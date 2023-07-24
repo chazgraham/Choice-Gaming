@@ -15,7 +15,9 @@ const Home = () => {
   const [gameData, setGameData] = useState([]);
   const [searchedInput, setSearchInput] = useState('');
   const [popularData, setPoularData] = useState([])
-  console.log(gameData)
+  const [upcomingData, setUpcomingData] = useState([])
+  const [newGameData, setNewGameData] = useState([])
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -41,7 +43,6 @@ const Home = () => {
         genres: game.genres,
         platforms: game.platforms,
         rating: game.rating,
-        description: game.description,
         released: game.released
       }));
 
@@ -59,11 +60,13 @@ const Home = () => {
   // Gets a list of 10 popular games
   useEffect(() => {
     getPopular()
+    getUpcoming()
+    getNew()
   }, [])
 
   const getPopular = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=5`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=12`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -92,7 +95,7 @@ const Home = () => {
   // Gets a list of 10 Upcoming games
   const getUpcoming = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${CURRENT_DATE},${NEXT_YEAR}&ordering=-rating&page_size=20`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${CURRENT_DATE},${NEXT_YEAR}&ordering=-rating&page_size=12`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -104,10 +107,14 @@ const Home = () => {
       const gameData = game.map((game) => ({
         name: game.name,
         background_image: game.background_image,
-        gameId: game.id
+        gameId: game.id,
+        genres: game.genres,
+        platforms: game.platforms,
+        rating: game.rating,
+        released: game.released
       }));
 
-      setGameData(gameData);
+      setUpcomingData(gameData);
     } catch (err) {
       console.error(err);
     }
@@ -116,7 +123,7 @@ const Home = () => {
   // Gets a list of 10 New games
   const getNew = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-released&page_size=20`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-released&page_size=12`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -128,10 +135,14 @@ const Home = () => {
       const gameData = game.map((game) => ({
         name: game.name,
         background_image: game.background_image,
-        gameId: game.id
+        gameId: game.id,
+        genres: game.genres,
+        platforms: game.platforms,
+        rating: game.rating,
+        released: game.released
       }));
 
-      setGameData(gameData);
+      setNewGameData(gameData);
     } catch (err) {
       console.error(err);
     }
@@ -140,9 +151,10 @@ const Home = () => {
   // Differnt values for game details
   const [gameDescription, setGameDescription] = useState([])
   const [gamePlatform, setGamePlatform] = useState([])
-  const [gameGenre, setGameGenres] = useState([])
   const [gameRating, setGameRating] = useState([])
   const [gameReleaseDate, setGameReleaseDate] = useState([])
+  const [gameSaveId, setGameSaveId] = useState([])
+  const [gameToBeSaved, setGameToBeSaved] = useState([])
 
   //handles detail model 
   const [show, setShow] = useState(false);
@@ -151,22 +163,30 @@ const Home = () => {
 
   // Gets the games ID from gameData and passes it through api call to get details 
   const getDetails = async (gameId) => {
-    const gameDetail = gameData.find((game) => game.gameId === gameId);
-    const gameID = gameDetail.gameId;
+
+    const gameID = gameId;
 
     const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`);
     const game = await response.json();
     console.log(game)
 
+    const gameData = {
+      name: game.name,
+      background_image: game.background_image,
+      gameId: game.id,
+    }
+    
+
     const gameDescription = game.description_raw;
     const gamePlatform = game.platforms;
-    const gameGenres = game.genres;
     const gameRating = game.rating;
     const gameRelease = game.released
+    const gameSaveId = game.id
 
+    setGameToBeSaved(gameData)
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
-    setGameGenres(gameGenres);
+    setGameSaveId(gameSaveId);
     setGameRating(gameRating);
     setGameReleaseDate(gameRelease);
     handleShow()
@@ -180,9 +200,8 @@ const Home = () => {
   const [saveGame] = useMutation(SAVE_GAME);
 
   const handleSaveGame = async (gameId) => {
-
-    console.log(gameData)
-    const gameToSave = gameData.find((game) => game.gameId === gameId);
+    const gameToSave = gameToBeSaved
+    console.log(gameToSave)
 
 
     // get token
@@ -212,7 +231,8 @@ const Home = () => {
 
   const handlewishlistGame = async (gameId) => {
 
-    const gameToSave = gameData.find((game) => game.gameId === gameId);
+    const gameToSave = gameToBeSaved
+    console.log(gameToSave)
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -223,7 +243,7 @@ const Home = () => {
 
     try {
       await wishlistGame({
-        variables: { gameToSave: { ...gameToSave } },
+        variables: { gameToSave: {...gameToSave}  },
       });
 
       // if game successfully saves to user's account, save game id to state
@@ -241,7 +261,7 @@ const Home = () => {
 
   const handlePlayedGame = async (gameId) => {
 
-    const gameToSave = gameData.find((game) => game.gameId === gameId);
+    const gameToSave = gameToBeSaved
 
 
     // get token
@@ -271,59 +291,36 @@ const Home = () => {
         <form onSubmit={handleFormSubmit}>
           <input type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
           <button type="submit">Submit</button>
+          <button onClick={clearSearch}>Clear</button>
         </form>
-        <Container className="flex-row">
+        <div className="card_container">
           {gameData.map((game) => (
-            <div className="game-card" key={game.name}>
-              <h4>{game.name}</h4>
-              <div className="overlay-position">
-                <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} />
-                {Auth.loggedIn() && (
-                  <div className="img__overlay">
-                    <button
-                      disabled={savedGameIds?.some((savedGameId) => savedGameId === game.gameId)}
-                      className='save-button'
-                      onClick={() => handleSaveGame(game.gameId)}>
-                      {savedGameIds?.some((savedGameId) => savedGameId === game.gameId)
-                        ? 'Playing!'
-                        : 'Set as playing!'}
-                    </button>
-                    <button
-                      disabled={wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === game.gameId)}
-                      className='save-button'
-                      onClick={() => handlewishlistGame(game.gameId)}>
-                      {wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === game.gameId)
-                        ? 'On Wishlist'
-                        : 'Save to wishlist!'}
-                    </button>
-                    <button
-                      disabled={playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === game.gameId)}
-                      className='save-button'
-                      onClick={() => handlePlayedGame(game.gameId)}>
-                      {playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === game.gameId)
-                        ? 'Completed!'
-                        : 'Save as Completed!'}
-                    </button>
-                  </div>
-                )}
+            <div className="game_card">
+              <img className="game_img" src={game.background_image} alt={game.name} />
+              <div className="overlay">
+                <p className="game_title_overlay">{game.name}</p>
+                <div className="genre_list">
+                  {game.genres.map((genre) => (
+                    <li className="genre">{genre.name}</li>
+                  ))}
+                </div>
               </div>
-              <button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>
             </div>
           ))}
-        </Container>
+        </div>
       </section>
       <section className="main_container">
         <div>
           <h2>Popular</h2>
           <div className="card_container">
             {popularData.map((game) => (
-              <div>
+              <div className="game_card">
                 <img className="game_img" src={game.background_image} alt={game.name} />
-                <div className="overlay">
-                  <h5 className="game_title_overlay">{game.name}</h5>
+                <div className="overlay" onClick={() => getDetails(game.gameId)}>
+                  <p className="game_title_overlay">{game.name}</p>
                   <div className="genre_list">
                     {game.genres.map((genre) => (
-                      <li>{genre.name},</li>
+                      <li className="genre">{genre.name}</li>
                     ))}
                   </div>
                 </div>
@@ -332,14 +329,40 @@ const Home = () => {
           </div>
         </div>
         <div>
-          <h2>
-            Top Upcoming
-          </h2>
+          <h2>Top Upcoming</h2>
+          <div className="card_container">
+            {upcomingData.map((game) => (
+              <div className="game_card">
+                <img className="game_img" src={game.background_image} alt={game.name} />
+                <div className="overlay">
+                  <p className="game_title_overlay">{game.name}</p>
+                  <div className="genre_list">
+                    {game.genres.map((genre) => (
+                      <li className="genre">{genre.name}</li>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         <div>
-          <h2>
-            NewS Released
-          </h2>
+          <h2>New Released</h2>
+          <div className="card_container">
+            {newGameData.map((game) => (
+              <div className="game_card">
+                <img className="game_img" src={game.background_image} alt={game.name} />
+                <div className="overlay">
+                  <p className="game_title_overlay">{game.name}</p>
+                  <div className="genre_list">
+                    {game.genres.map((genre) => (
+                      <li className="genre">{genre.name}</li>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
       <section>
@@ -359,12 +382,34 @@ const Home = () => {
           <Modal.Body>{gamePlatform.map((platforms) => (
             <li key={platforms.platform.name}>{platforms.platform.name}</li>
           ))}</Modal.Body>
-          <Modal.Header>
-            <Modal.Title>Genres</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>{gameGenre.map((genres) => (
-            <li key={genres.name}>{genres.name}</li>
-          ))}</Modal.Body>
+          {Auth.loggedIn() && (
+            <Modal.Body>
+              <Button
+                disabled={savedGameIds?.some((savedGameId) => savedGameId === gameSaveId)}
+                className='save-button'
+                onClick={() => handleSaveGame(gameSaveId)}>
+                {savedGameIds?.some((savedGameId) => savedGameId === gameSaveId)
+                  ? 'Playing!'
+                  : 'Set as playing!'}
+              </Button>
+              <Button
+                disabled={wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === gameSaveId)}
+                className='save-button'
+                onClick={() => handlewishlistGame(gameSaveId)}>
+                {wishlistGameIds?.some((savedWishlistGameId) => savedWishlistGameId === gameSaveId)
+                  ? 'On Wishlist'
+                  : 'Save to wishlist!'}
+              </Button>
+              <Button
+                disabled={playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === gameSaveId)}
+                className='save-button'
+                onClick={() => handlePlayedGame(gameSaveId)}>
+                {playedGameIds?.some((savedPlayedGameId) => savedPlayedGameId === gameSaveId)
+                  ? 'Completed!'
+                  : 'Save as Completed!'}
+              </Button>
+            </Modal.Body>
+          )}
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
