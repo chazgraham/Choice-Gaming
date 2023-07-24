@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './navbar.css';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from '../SignUp/SignupForm';
@@ -13,19 +14,19 @@ const AppNavbar = () => {
   return (
     <>
       <section className='header'>
+    
+          <Link to='/' className='nav_link'><h1 className='title'>Game Seeker</h1></Link>
+
         <div>
-          <Link to='/'><h1 className='title'>Game Seeker</h1></Link>
-        </div>
-        <div>
-          <ul>
-            <Link to='/users'><li>find friends</li></Link>
+          <ul className='nav_list'>
+            <Link to='/users' className='nav_link'><li>Find friends</li></Link>
             {Auth.loggedIn() ? (
               <>
-                <Link to='/profile'><li>Profile</li></Link>
-                <Link onClick={Auth.logout}><li>Logout</li></Link>
+                <Link to='/profile' className='nav_link'><li>Profile</li></Link>
+                <Link onClick={Auth.logout} className='nav_link'><li>Logout</li></Link>
               </>
             ) : (
-              <Link onClick={() => setShowModal(true)}><li>Loggin/Sign Up</li></Link>
+              <Link onClick={() => setShowModal(true)} className='nav_link'><li>Loggin/Sign Up</li></Link>
             )}
           </ul>
         </div>

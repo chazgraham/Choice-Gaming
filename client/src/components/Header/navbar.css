@@ -1,0 +1,32 @@
+.header {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 25px 25px 25px 25px;
+    background-color: #050717;
+}
+
+.title {
+    margin-left: 100px;
+}
+
+.title:hover {
+    text-decoration: none;
+}
+
+.nav_list {
+    display: flex;
+    margin-top: 16px;
+    margin-right: 20px;
+}
+
+.nav_link {
+    margin-right: 10px;
+}
+
+.nav_link:hover {
+    text-decoration: none;
+}
