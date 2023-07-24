@@ -330,7 +330,7 @@ const Home = () => {
             {upcomingData.map((game) => (
               <div className="game_card">
                 <img className="game_img" src={game.background_image} alt={game.name} />
-                <div className="overlay">
+                <div className="overlay" onClick={() => getDetails(game.gameId)}>
                   <p className="game_title_overlay">{game.name}</p>
                   <div className="genre_list">
                     {game.genres.map((genre) => (
@@ -348,7 +348,7 @@ const Home = () => {
             {newGameData.map((game) => (
               <div className="game_card">
                 <img className="game_img" src={game.background_image} alt={game.name} />
-                <div className="overlay">
+                <div className="overlay" onClick={() => getDetails(game.gameId)}>
                   <p className="game_title_overlay">{game.name}</p>
                   <div className="genre_list">
                     {game.genres.map((genre) => (
