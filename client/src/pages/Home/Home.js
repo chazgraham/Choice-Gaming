@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import "./home.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useMutation } from '@apollo/client';
 import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../../utils/mutations";
-import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds,  SaveplayedGameIds } from "../../utils/localStorage";
+import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds, SaveplayedGameIds } from "../../utils/localStorage";
 import Auth from '../../utils/auth';
 import { BASE_URL, LAST_YEAR, CURRENT_DATE, NEXT_YEAR } from '../../utils/gamesApi';
-import { Container,Jumbotron, Form, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 const api_key = '7ed816ff62b4460aa987135932b168c3'
 
 const Home = () => {
   const [gameData, setGameData] = useState([]);
   const [searchedInput, setSearchInput] = useState('');
-
+  const [popularData, setPoularData] = useState([])
+  console.log(gameData)
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -30,11 +32,17 @@ const Home = () => {
 
       const games = await response.json();
       const game = games.results;
+      console.log(game)
 
       const gameData = game.map((game) => ({
         name: game.name,
         background_image: game.background_image,
-        gameId: game.id
+        gameId: game.id,
+        genres: game.genres,
+        platforms: game.platforms,
+        rating: game.rating,
+        description: game.description,
+        released: game.released
       }));
 
       setGameData(gameData);
@@ -49,9 +57,13 @@ const Home = () => {
   }
 
   // Gets a list of 10 popular games
+  useEffect(() => {
+    getPopular()
+  }, [])
+
   const getPopular = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=20`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=5`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -63,14 +75,19 @@ const Home = () => {
       const gameData = game.map((game) => ({
         name: game.name,
         background_image: game.background_image,
-        gameId: game.id
+        gameId: game.id,
+        genres: game.genres,
+        platforms: game.platforms,
+        rating: game.rating,
+        released: game.released
       }));
 
-      setGameData(gameData);
+      setPoularData(gameData);
     } catch (err) {
       console.error(err);
     }
   }
+  console.log(popularData)
 
   // Gets a list of 10 Upcoming games
   const getUpcoming = async (event) => {
@@ -139,8 +156,9 @@ const Home = () => {
 
     const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`);
     const game = await response.json();
+    console.log(game)
 
-    const gameDescription = game.description;
+    const gameDescription = game.description_raw;
     const gamePlatform = game.platforms;
     const gameGenres = game.genres;
     const gameRating = game.rating;
@@ -187,107 +205,73 @@ const Home = () => {
     }
   };
 
-    // save games code below
-    const [wishlistGameIds, setWishlistGameIds] = useState(getWishlistGameIds());
-  
-    const [wishlistGame] = useMutation(WISHLIST_GAME);
-  
-    const handlewishlistGame = async (gameId) => {
-  
-      const gameToSave = gameData.find((game) => game.gameId === gameId);
-  
-      // get token
-      const token = Auth.loggedIn() ? Auth.getToken() : null;
-  
-      if (!token) {
-        return false;
-      }
-  
-      try {
-        await wishlistGame({
-          variables: { gameToSave: { ...gameToSave } },
-        });
-  
-        // if game successfully saves to user's account, save game id to state
-        setWishlistGameIds([...wishlistGameIds, gameToSave.gameId]);
-        saveWishlistIds([...wishlistGameIds, gameToSave.gameId]);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  // save games code below
+  const [wishlistGameIds, setWishlistGameIds] = useState(getWishlistGameIds());
 
-    // save games code below
-    const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
-  
-    const [PlayedGame] = useMutation(PLAYED_GAME);
-  
-    const handlePlayedGame = async (gameId) => {
-  
-      const gameToSave = gameData.find((game) => game.gameId === gameId);
-  
-  
-      // get token
-      const token = Auth.loggedIn() ? Auth.getToken() : null;
-  
-      if (!token) {
-        return false;
-      }
-  
-      try {
-        await PlayedGame({
-          variables: { gameToSave: { ...gameToSave } },
-        });
-  
-        // if game successfully saves to user's account, save game id to state
-        setPlayedGameIds([...playedGameIds, gameToSave.gameId]);
-        SaveplayedGameIds([...playedGameIds, gameToSave.gameId]);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  const [wishlistGame] = useMutation(WISHLIST_GAME);
+
+  const handlewishlistGame = async (gameId) => {
+
+    const gameToSave = gameData.find((game) => game.gameId === gameId);
+
+    // get token
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      await wishlistGame({
+        variables: { gameToSave: { ...gameToSave } },
+      });
+
+      // if game successfully saves to user's account, save game id to state
+      setWishlistGameIds([...wishlistGameIds, gameToSave.gameId]);
+      saveWishlistIds([...wishlistGameIds, gameToSave.gameId]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // save games code below
+  const [playedGameIds, setPlayedGameIds] = useState(getPlayedGameIds());
+
+  const [PlayedGame] = useMutation(PLAYED_GAME);
+
+  const handlePlayedGame = async (gameId) => {
+
+    const gameToSave = gameData.find((game) => game.gameId === gameId);
+
+
+    // get token
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      await PlayedGame({
+        variables: { gameToSave: { ...gameToSave } },
+      });
+
+      // if game successfully saves to user's account, save game id to state
+      setPlayedGameIds([...playedGameIds, gameToSave.gameId]);
+      SaveplayedGameIds([...playedGameIds, gameToSave.gameId]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
 
   return (
     <>
-         <Jumbotron fluid className='text-light'>
-        <Container>
-          <Form onSubmit={handleFormSubmit}>
-            <Form.Row>
-              <Col xs={12} md={8}>
-                <Form.Control
-                  name='searchInput'
-                  value={searchedInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  type='text'
-                  size='lg'
-                  placeholder='Search for a game'
-                />
-              </Col>
-              <Col xs={12} md={4}>
-                <button className='btn-2' type='submit' size='lg'>
-                  Submit Search
-                </button>
-                <button className='clear-btn' onClick={clearSearch}>
-                  clear search
-                </button>
-              </Col>
-            </Form.Row>
-          </Form>
-        </Container>
-      </Jumbotron>
-      <div className="card-container">
-        <div className="gamesBtn">
-          <button className="btn-1" onClick={getPopular}>
-            Popular Games
-          </button>
-          <button className="btn-1" onClick={getUpcoming}>
-            upcoming Games
-          </button>
-          <button className="btn-1" onClick={getNew}>
-            New Games
-          </button>
-        </div>
-
+      <section>
+        <form onSubmit={handleFormSubmit}>
+          <input type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
+          <button type="submit">Submit</button>
+        </form>
         <Container className="flex-row">
           {gameData.map((game) => (
             <div className="game-card" key={game.name}>
@@ -327,6 +311,38 @@ const Home = () => {
             </div>
           ))}
         </Container>
+      </section>
+      <section className="main_container">
+        <div>
+          <h2>Popular</h2>
+          <div className="card_container">
+            {popularData.map((game) => (
+              <div>
+                <img className="game_img" src={game.background_image} alt={game.name} />
+                <div className="overlay">
+                  <h5 className="game_title_overlay">{game.name}</h5>
+                  <div className="genre_list">
+                    {game.genres.map((genre) => (
+                      <li>{genre.name},</li>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h2>
+            Top Upcoming
+          </h2>
+        </div>
+        <div>
+          <h2>
+            NewS Released
+          </h2>
+        </div>
+      </section>
+      <section>
         <Modal show={show} onHide={handleClose}>
           <p>{gameRating === 0
             ? 'Currently Unrated'
@@ -355,7 +371,7 @@ const Home = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-      </div>
+      </section>
     </>
   )
 }
