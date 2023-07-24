@@ -82,25 +82,21 @@ h2 {
 }
 
 .game_title_overlay {
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 500;
     width: 200px;
     margin: 5px;
     position: absolute;
-    top: 80px;
+    top: 120px;
     color: white;
     letter-spacing: 1px;
-}
-
-.game_title {
-    font-size: 12px;
 }
 
 .genre_list {
     display: flex;
     list-style: none;
     position: absolute;
-    top: 130px;
+    top: 180px;
     color: white;
 }
 
