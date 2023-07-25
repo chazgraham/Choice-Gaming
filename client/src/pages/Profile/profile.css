@@ -1,0 +1,41 @@
+.profile_game_container {
+    display: flex;
+    margin: 20px;
+    padding-bottom: 120px;
+}
+
+.game_list {
+    width: 600px;
+}
+
+.friend-container {
+    margin-right: 10px;
+    background-color: black;
+    min-height: 60vh;
+    border-radius: 10px 10px 10px 10px;
+    color: rgb(71, 71, 71);
+    text-align: center;
+}
+
+.friend_h5 {
+    text-align: center;
+    padding-top: 10px;
+    color: rgb(71, 71, 71);
+}
+
+.profile-link {
+    text-align: center;
+    list-style: none;
+    color: rgb(192, 192, 192);
+}
+
+.profile-link:hover {
+    color: rgb(71, 71, 71);
+}
+
+@media only screen and (max-width: 1090px) {
+    .profile_game_container {
+        flex-wrap: wrap;
+        padding-bottom: 170px;
+    }
+}

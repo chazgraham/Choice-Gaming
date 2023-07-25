@@ -137,4 +137,8 @@ h2 {
     .searchTerm {
         width: 230px;
     }
+
+    .main_container {
+        padding-bottom: 170px;
+    }
 }

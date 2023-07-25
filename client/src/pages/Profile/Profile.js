@@ -9,7 +9,7 @@ import Auth from '../../utils/auth';
 import { ADD_FRIEND, Delete_GAME, Delete_WISHLISTGAME, Delete_PLAYEDGAME } from '../../utils/mutations';
 import { deleteGameId, deleteWishlistGameId, deletePlayedGameId } from '../../utils/localStorage';
 import { BASE_URL } from '../../utils/gamesApi';
-import { Col, Row } from 'react-bootstrap';
+import "./profile.css";
 
 const api_key = '7ed816ff62b4460aa987135932b168c3'
 
@@ -162,16 +162,15 @@ const Profile = () => {
           </div>
         )}
       </section>
-      <section>
+      <section className='profile_game_container'>
         <FriendList
+          className='friend-container'
           username={user.username}
           friendCount={user.friendCount}
           friends={user.friends}
         />
-      </section>
-      <section>
-        <div>
-          <h2>Currently Playing</h2>
+        <div className='game_list'>
+          <h2>Playing</h2>
           <div className="card_container">
             {user.savedGames.map((game) => (
               <div className="game_card">
@@ -183,7 +182,7 @@ const Profile = () => {
             ))}
           </div>
         </div>
-        <div>
+        <div className='game_list'>
           <h2>Wishlist</h2>
           <div className="card_container">
             {user.wishlistGames.map((game) => (
@@ -196,7 +195,7 @@ const Profile = () => {
             ))}
           </div>
         </div>
-        <div>
+        <div className='game_list'>
           <h2>Completed</h2>
           <div className="card_container">
             {user.playedGames.map((game) => (
