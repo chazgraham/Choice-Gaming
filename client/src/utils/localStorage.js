@@ -58,11 +58,13 @@ export const deleteGameId = (gameId) => {
     ? JSON.parse(localStorage.getItem('saved_games'))
     : null;
   console.log(savedGameIds)
+  const gameIdNumber = Number(gameId)
+  console.log(gameIdNumber)
 
   if (!savedGameIds) {
     return false;
   }
-  const updatedSavedGameIds = savedGameIds?.filter((savedGameId) => savedGameId != gameId);
+  const updatedSavedGameIds = savedGameIds?.filter((savedGameId) => savedGameId !== gameIdNumber);
   localStorage.setItem('saved_games', JSON.stringify(updatedSavedGameIds));
   console.log(updatedSavedGameIds)
 
@@ -75,11 +77,12 @@ export const deleteWishlistGameId = (gameId) => {
     ? JSON.parse(localStorage.getItem('wishlist_games'))
     : null;
   console.log(wishlistGameIds)
+  const gameIdNumber = Number(gameId)
 
   if (!wishlistGameIds) {
     return false;
   }
-  const updatedWishlistGameIds = wishlistGameIds?.filter((savedGameId) => savedGameId != gameId);
+  const updatedWishlistGameIds = wishlistGameIds?.filter((savedGameId) => savedGameId !== gameIdNumber);
   localStorage.setItem('wishlist_games', JSON.stringify(updatedWishlistGameIds));
   console.log(updatedWishlistGameIds)
 
@@ -92,12 +95,13 @@ export const deletePlayedGameId = (gameId) => {
     ? JSON.parse(localStorage.getItem('played_games'))
     : null;
   console.log(playedGameIds)
+  const gameIdNumber = Number(gameId)
 
   if (!playedGameIds) {
     return false;
   }
-  const updatedPlayedGameIds = playedGameIds?.filter((savedGameId) => savedGameId != gameId);
-  localStorage.setItem('wishlist_games', JSON.stringify(updatedPlayedGameIds));
+  const updatedPlayedGameIds = playedGameIds?.filter((savedGameId) => savedGameId !== gameIdNumber);
+  localStorage.setItem('played_games', JSON.stringify(updatedPlayedGameIds));
   console.log(updatedPlayedGameIds)
 
   return true;
