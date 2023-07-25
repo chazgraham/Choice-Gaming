@@ -38,13 +38,15 @@ const Profile = () => {
   const user = data?.me || data?.user || {};
 
   // Differnt values for game details
-  const [gameDescription, setGameDescription] = useState([])
-  const [gamePlatform, setGamePlatform] = useState([])
-  const [gameGenre, setGameGenres] = useState([])
-  const [gameRating, setGameRating] = useState([])
-  const [gameReleaseDate, setGameReleaseDate] = useState([])
-  const [gameDeleteId, setGameDeleteId] = useState([])
-  const [modalDeleteBtn, setModalDeleteBtn] = useState('')
+  const [gameDescription, setGameDescription] = useState([]);
+  const [gamePlatform, setGamePlatform] = useState([]);
+  //const [gameGenre, setGameGenres] = useState([])
+  const [gameRating, setGameRating] = useState([]);
+  const [gameReleaseDate, setGameReleaseDate] = useState([]);
+  const [gameDeleteId, setGameDeleteId] = useState([]);
+  const [modalDeleteBtn, setModalDeleteBtn] = useState('');
+  const [gamedisplay, setGameDisplay] = useState('playing');
+  const [active, setActive] = useState('playing');
 
   //handles detail model 
   const [show, setShow] = useState(false);
@@ -58,7 +60,7 @@ const Profile = () => {
 
     const gameDescription = game.description_raw;
     const gamePlatform = game.platforms;
-    const gameGenres = game.genres;
+    //const gameGenres = game.genres;
     const gameRating = game.rating;
     const gameRelease = game.released
     const gameDeleteId = game.id
@@ -66,7 +68,7 @@ const Profile = () => {
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
-    setGameGenres(gameGenres);
+    //setGameGenres(gameGenres);
     setGameRating(gameRating);
     setGameReleaseDate(gameRelease);
     setGameDeleteId(gameDeleteId.toString())
@@ -146,7 +148,7 @@ const Profile = () => {
   return (
     <>
       <section>
-        <h2>
+        <h2 className='profile_h2'>
           Viewing {userParam ? `${user.username}'s` : 'your'} profile.
         </h2>
         {Auth.loggedIn() && (
@@ -162,44 +164,49 @@ const Profile = () => {
         )}
       </section>
       <section className='profile_game_container'>
-        <div className='game_list'>
-          <h2>Playing</h2>
-          <div className="card_container">
-            {user.savedGames.map((game) => (
-              <div className="game_card">
-                <img className="game_img" src={game.background_image} alt={game.name} />
-                <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('playing') }}>
-                  <p className="game_title_overlay">{game.name}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className='game_display'>
+          <button onClick={() => {setGameDisplay('playing'); setActive('playing')}} className={active === 'playing' ? 'active' : 'game_display_btn'}>Playing</button>
+          <button onClick={() => {setGameDisplay('wishList'); setActive('wishList')}} className={active === 'wishList' ? 'active' : 'game_display_btn'}>wishList</button>
+          <button onClick={() => {setGameDisplay('completed'); setActive('completed')}} className={active === 'completed' ? 'active' : 'game_display_btn'}>completed</button>
         </div>
         <div className='game_list'>
-          <h2>Wishlist</h2>
-          <div className="card_container">
-            {user.wishlistGames.map((game) => (
-              <div className="game_card">
-                <img className="game_img" src={game.background_image} alt={game.name} />
-                <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('wishlist') }}>
-                  <p className="game_title_overlay">{game.name}</p>
+          {gamedisplay === 'playing' && (
+            <div className="card_container">
+              {user.savedGames.map((game) => (
+                <div className="game_card">
+                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('playing') }}>
+                    <p className="game_title_overlay">{game.name}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className='game_list'>
-          <h2>Completed</h2>
-          <div className="card_container">
-            {user.playedGames.map((game) => (
-              <div className="game_card">
-                <img className="game_img" src={game.background_image} alt={game.name} />
-                <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('completed') }}>
-                  <p className="game_title_overlay">{game.name}</p>
+              ))}
+            </div>
+          )}
+
+          {gamedisplay === 'wishList' && (
+            <div className="card_container">
+              {user.wishlistGames.map((game) => (
+                <div className="game_card">
+                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('wishlist') }}>
+                    <p className="game_title_overlay">{game.name}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
+          {gamedisplay === 'completed' && (
+            <div className="card_container">
+              {user.playedGames.map((game) => (
+                <div className="game_card">
+                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('completed') }}>
+                    <p className="game_title_overlay">{game.name}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
       <section>

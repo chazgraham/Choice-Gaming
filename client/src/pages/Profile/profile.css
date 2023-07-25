@@ -1,11 +1,47 @@
-.profile_game_container {
-    display: flex;
-    margin: 20px;
-    padding-bottom: 120px;
+.profile_h2 {
+    text-align: center;
+    width: 100%;
+    background-color: transparent;
+    color: black;
+    font-weight: 700;
 }
 
-.game_list {
-    width: 600px;
+.game_display {
+    align-items: center;
+    justify-content: baseline;
+    text-align: center;
+    width: -webkit-fill-available;
+}
+
+.game_display_btn {
+    padding: 20px 30px 20px 30px;
+    font-size: 30px;
+    border: 3px solid #292a2a;
+    background-color: #292a2a;
+    color: rgb(192, 192, 192);
+}
+
+.active {
+    padding: 20px 30px 20px 30px;
+    font-size: 30px;
+    border: 3px solid #292a2a;
+    background-color: #202020;
+    color: rgb(192, 192, 192);
+}
+
+.game_display_btn:hover {
+    background-color: #202020;
+}
+
+.card_container {
+    width: -webkit-fill-available;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.profile_game_container {
+    margin: 20px;
+    padding-bottom: 120px;
 }
 
 .profile-link {
@@ -22,5 +58,28 @@
     .profile_game_container {
         flex-wrap: wrap;
         padding-bottom: 170px;
+    }
+}
+
+@media only screen and (max-width: 590px) {
+    .game_display_btn {
+        font-size: 20px;
+    }
+    
+    .active {
+        font-size: 20px;
+
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .game_display_btn {
+        font-size: 16px;
+        padding: 15px 20px 15px 20px;
+    }
+    
+    .active {
+        font-size: 16px;
+        padding: 15px 20px 15px 20px;
     }
 }
