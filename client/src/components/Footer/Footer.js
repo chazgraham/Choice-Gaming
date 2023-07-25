@@ -20,7 +20,7 @@ function Footer() {
                     <Link to='/' onClick={() => sendToTop(window.location)} className='footer_link'>Home</Link>
                 </li>
                 <li className='footer_li'>
-                    <Link to='/users' onClick={() => sendToTop(window.location)} className='footer_link'>Find Friends</Link>
+                    <Link to='/users' onClick={() => sendToTop(window.location)} className='footer_link'>Friends</Link>
                 </li>
                 <li className='footer_li'>
                     {Auth.loggedIn() && (

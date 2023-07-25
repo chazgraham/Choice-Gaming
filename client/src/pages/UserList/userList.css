@@ -1,4 +1,74 @@
 .friends_container {
     display: flex;
     margin: 50px;
+    min-height: 70vh;
+}
+
+h5 {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.allUsers_h5 {
+    margin-bottom: 30px;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.allUsers {
+    width: -webkit-fill-available;
+    text-align: center;
+}
+
+.users {
+    display: flex;
+    justify-content: center;
+}
+
+.user {
+    padding: 20px;
+    background-color: #202020;
+    margin: 5px;
+    border-radius: 10px 10px 10px 10px;
+    color: #d8d7e9;
+}
+
+.user:hover {
+    color: rgb(71, 71, 71);
+}
+
+.friend_container {
+    background-color: #202020;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.friend_h5 {
+    background-color: rgb(12, 12, 12);
+    margin-bottom: 0;
+    padding: 15px 30px 15px 30px;
+    border-radius: 5px 5px 0px 0px;
+    color: #d8d7e9;
+    border-bottom: 1px rgb(129, 129, 129) solid;
+}
+
+.friend-container {
+    padding: 10px;
+    background-color: #202020;
+    border-top: 1px white solid;
+}
+
+@media only screen and (max-width: 750px) {
+    .friends_container {
+        flex-wrap: wrap;
+        padding-bottom: 120px;
+    }
+
+    .friend_container {
+        width: -webkit-fill-available;
+        margin-bottom: 30px;
+    }
+
+    .friend_h5 {
+        text-align: center;
+    }
 }

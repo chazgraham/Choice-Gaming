@@ -25,20 +25,25 @@ const UserList = () => {
     return (
         <>
             <section className='friends_container'>
-                <div className='friend-container'>
+                <div className='friend_container'>
                     <h5 className='friend_h5'>
-                        {user.username}'s  {user.friendCount === 1 ? 'friend' : 'friends'}
+                        {user.friendCount === 1 ? 'Friend' : 'Friends'}
                     </h5>
-                    {user.friends.map(friend => (
-                        <li className="profile-link" key={friend._id}>
-                            <Link to={`/profile/${friend.username}`} className="profile-link">{friend.username}</Link>
-                        </li>
-                    ))}
+                    <div className='friend-container'>
+                        {user.friends.map(friend => (
+                            <li className="profile-link" key={friend._id}>
+                                <Link to={`/profile/${friend.username}`} className="profile-link">{friend.username}</Link>
+                            </li>
+                        ))}
+                    </div>
                 </div>
-                <div>
+                <div className='allUsers'>
+                    <h5 className='allUsers_h5'>All Users</h5>
+                    <div className='users'>
                     {allUsers.map(users => (
                         <div>
                             <Link
+                                className='user'
                                 to={`/profile/${users.username}`}
                                 style={{ fontWeight: 700 }}
                             >
@@ -46,6 +51,7 @@ const UserList = () => {
                             </Link>{' '}
                         </div>
                     ))}
+                    </div>
                 </div>
             </section>
         </>
