@@ -61,7 +61,7 @@ const Home = () => {
 
   const getPopular = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=12`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-rating&page_size=30`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -90,7 +90,7 @@ const Home = () => {
   // Gets a list of 10 Upcoming games
   const getUpcoming = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${CURRENT_DATE},${NEXT_YEAR}&ordering=-rating&page_size=12`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${CURRENT_DATE},${NEXT_YEAR}&ordering=-rating&page_size=30`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -118,7 +118,7 @@ const Home = () => {
   // Gets a list of 10 New games
   const getNew = async (event) => {
     try {
-      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-released&page_size=12`)
+      const response = await fetch(`${BASE_URL}games?key=${api_key}&dates=${LAST_YEAR},${CURRENT_DATE}&ordering=-released&page_size=30`)
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -150,6 +150,8 @@ const Home = () => {
   const [gameReleaseDate, setGameReleaseDate] = useState([])
   const [gameSaveId, setGameSaveId] = useState([])
   const [gameToBeSaved, setGameToBeSaved] = useState([])
+  const [gamedisplay, setGameDisplay] = useState('popular');
+  const [active, setActive] = useState('popular');
 
   //handles detail model 
   const [show, setShow] = useState(false);
@@ -304,59 +306,64 @@ const Home = () => {
         </div>
       </section>
       <section className="main_container">
-        <div>
-          <h2>Popular :</h2>
-          <div className="card_container">
-            {popularData.map((game) => (
-              <div className="game_card">
-                <img className="game_img" src={game.background_image} alt={game.name} />
-                <div className="overlay" onClick={() => getDetails(game.gameId)}>
-                  <p className="game_title_overlay">{game.name}</p>
-                  <div className="genre_list">
-                    {game.genres.map((genre) => (
-                      <li className="genre">{genre.name}</li>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+      <div className='game_display'>
+          <button onClick={() => {setGameDisplay('popular'); setActive('popular')}} className={active === 'popular' ? 'active' : 'game_display_btn'}>Popular</button>
+          <button onClick={() => {setGameDisplay('upcoming'); setActive('upcoming')}} className={active === 'upcoming' ? 'active' : 'game_display_btn'}>Upcoming</button>
+          <button onClick={() => {setGameDisplay('new'); setActive('new')}} className={active === 'new' ? 'active' : 'game_display_btn'}>New</button>
         </div>
-        <div>
-          <h2>Top Upcoming :</h2>
-          <div className="card_container">
-            {upcomingData.map((game) => (
-              <div className="game_card">
-                <img className="game_img" src={game.background_image} alt={game.name} />
-                <div className="overlay" onClick={() => getDetails(game.gameId)}>
-                  <p className="game_title_overlay">{game.name}</p>
-                  <div className="genre_list">
+        <div className='game_list'>
+          {gamedisplay === 'popular' && (
+            <div className="card_container">
+              {popularData.map((game) => (
+                <div className="game_card">
+                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  <div className="overlay" onClick={() => getDetails(game.gameId)}>
+                    <p className="game_title_overlay">{game.name}</p>
+                    <div className="genre_list">
                     {game.genres.map((genre) => (
                       <li className="genre">{genre.name}</li>
                     ))}
                   </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h2>New Released :</h2>
-          <div className="card_container">
-            {newGameData.map((game) => (
-              <div className="game_card">
-                <img className="game_img" src={game.background_image} alt={game.name} />
-                <div className="overlay" onClick={() => getDetails(game.gameId)}>
-                  <p className="game_title_overlay">{game.name}</p>
-                  <div className="genre_list">
+              ))}
+            </div>
+          )}
+
+          {gamedisplay === 'upcoming' && (
+            <div className="card_container">
+              {upcomingData.map((game) => (
+                <div className="game_card">
+                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  <div className="overlay" onClick={() => getDetails(game.gameId)}>
+                    <p className="game_title_overlay">{game.name}</p>
+                    <div className="genre_list">
                     {game.genres.map((genre) => (
                       <li className="genre">{genre.name}</li>
                     ))}
                   </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
+          {gamedisplay === 'new' && (
+            <div className="card_container">
+              {newGameData.map((game) => (
+                <div className="game_card">
+                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  <div className="overlay" onClick={() => getDetails(game.gameId)}>
+                    <p className="game_title_overlay">{game.name}</p>
+                    <div className="genre_list">
+                    {game.genres.map((genre) => (
+                      <li className="genre">{genre.name}</li>
+                    ))}
+                  </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
       <section>

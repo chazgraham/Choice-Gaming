@@ -15,9 +15,6 @@ const UserList = () => {
     const user = data?.me || data?.user || {};
     console.log(allUsers)
 
-    if (!user.friends || !user.friends.length) {
-        return <p className="friend-container">{user.username}, make some friends!</p>;
-    }
     if (loading) {
         return <div>Loading...</div>;
     }

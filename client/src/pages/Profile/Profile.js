@@ -145,12 +145,16 @@ const Profile = () => {
     }
   }
 
+  //Set up for friend button
+  //console.log(userParam)
+  //console.log(user.friends)
+  //console.log(Auth.getProfile().data)
+  //console.log(users)
+  //const { data: users } = useQuery(QUERY_USERS);
+
   return (
     <>
       <section>
-        <h2 className='profile_h2'>
-          Viewing {userParam ? `${user.username}'s` : 'your'} profile.
-        </h2>
         {Auth.loggedIn() && (
           <div>
             {userParam && (
@@ -162,12 +166,15 @@ const Profile = () => {
             )}
           </div>
         )}
+        <h2 className='profile_h2'>
+          Viewing {userParam ? `${user.username}'s` : 'your'} profile.
+        </h2>
       </section>
       <section className='profile_game_container'>
         <div className='game_display'>
-          <button onClick={() => {setGameDisplay('playing'); setActive('playing')}} className={active === 'playing' ? 'active' : 'game_display_btn'}>Playing</button>
-          <button onClick={() => {setGameDisplay('wishList'); setActive('wishList')}} className={active === 'wishList' ? 'active' : 'game_display_btn'}>wishList</button>
-          <button onClick={() => {setGameDisplay('completed'); setActive('completed')}} className={active === 'completed' ? 'active' : 'game_display_btn'}>completed</button>
+          <button onClick={() => { setGameDisplay('playing'); setActive('playing') }} className={active === 'playing' ? 'active' : 'game_display_btn'}>Playing</button>
+          <button onClick={() => { setGameDisplay('wishList'); setActive('wishList') }} className={active === 'wishList' ? 'active' : 'game_display_btn'}>wishList</button>
+          <button onClick={() => { setGameDisplay('completed'); setActive('completed') }} className={active === 'completed' ? 'active' : 'game_display_btn'}>completed</button>
         </div>
         <div className='game_list'>
           {gamedisplay === 'playing' && (

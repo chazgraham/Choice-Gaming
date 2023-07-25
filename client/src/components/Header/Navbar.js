@@ -19,9 +19,9 @@ const AppNavbar = () => {
 
         <div>
           <ul className='nav_list'>
-            <Link to='/users' className='nav_link'><li>Friends</li></Link>
             {Auth.loggedIn() ? (
               <>
+                <Link to='/users' className='nav_link'><li>Friends</li></Link>
                 <Link to='/profile' className='nav_link'><li>Profile</li></Link>
                 <Link onClick={Auth.logout} className='nav_link'><li>Logout</li></Link>
               </>

@@ -19,14 +19,18 @@ function Footer() {
                 <li className='footer_li'>
                     <Link to='/' onClick={() => sendToTop(window.location)} className='footer_link'>Home</Link>
                 </li>
-                <li className='footer_li'>
-                    <Link to='/users' onClick={() => sendToTop(window.location)} className='footer_link'>Friends</Link>
-                </li>
-                <li className='footer_li'>
-                    {Auth.loggedIn() && (
-                        <Link to='/profile' className='footer_link'>Profile</Link>
-                    )}
-                </li>
+                {Auth.loggedIn() && (
+                    <>
+                        <li className='footer_li'>
+                            <Link to='/users' onClick={() => sendToTop(window.location)} className='footer_link'>Friends</Link>
+                        </li>
+                        <li className='footer_li'>
+
+                            <Link to='/profile' className='footer_link'>Profile</Link>
+
+                        </li>
+                    </>
+                )}
             </ul>
             <p className='footer_p'>©2022 <a href='https://github.com/chazgraham' className='footer_link'>Chaz Graham</a> Game Seeker. All right reserved.</p>
         </footer>
