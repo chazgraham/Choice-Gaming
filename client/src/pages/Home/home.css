@@ -127,3 +127,9 @@ h2 {
 .save-button {
     margin: 5px;
 }
+
+@media only screen and (max-width: 400px) {
+    .searchTerm {
+        width: 230px;
+    }
+}

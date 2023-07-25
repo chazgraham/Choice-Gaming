@@ -2,7 +2,9 @@ footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    margin: 80px 90px 30px 90px;
+    padding: 30px 90px 10px 90px;
+    background-color: #202020;
+    box-shadow: 0px 0px 5px #d8d7e9
 }
 
 .footer_ul {
@@ -19,10 +21,20 @@ footer {
 }
 
 .footer_p {
-    font-weight: light;
-    font-size: 15px;
+    font-weight: 500;
+    font-size: 20px;
     padding-left: 80px;
     color: rgb(205, 205, 205);
+}
+
+.footer_link {
+    font-weight: 500;
+    font-size: 20px;
+    color: #d8d7e9;
+}
+
+.footer_link:hover {
+    color: white;
 }
 
 @media only screen and (max-width: 380px) {

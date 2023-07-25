@@ -17,18 +17,18 @@ function Footer() {
         <footer>
             <ul className='footer_ul'>
                 <li className='footer_li'>
-                    <Link to='/' onClick={() => sendToTop(window.location)}>Home</Link>
+                    <Link to='/' onClick={() => sendToTop(window.location)} className='footer_link'>Home</Link>
                 </li>
                 <li className='footer_li'>
-                    <Link to='/users' onClick={() => sendToTop(window.location)}>Find Friends</Link>
+                    <Link to='/users' onClick={() => sendToTop(window.location)} className='footer_link'>Find Friends</Link>
                 </li>
                 <li className='footer_li'>
                     {Auth.loggedIn() && (
-                        <Link to='/profile' className='nav_link'><li>Profile</li></Link>
+                        <Link to='/profile' className='footer_li'><li>Profile</li></Link>
                     )}
                 </li>
             </ul>
-            <p className='footer_p'>©2022 Chaz Graham Game Seeker. All right reserved.</p>
+            <p className='footer_p'>©2022 <a href='https://github.com/chazgraham' className='footer_link'>Chaz Graham</a> Game Seeker. All right reserved.</p>
         </footer>
     )
 }
