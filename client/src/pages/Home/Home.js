@@ -283,10 +283,10 @@ const Home = () => {
   return (
     <>
       <section>
-          <form className="search" onSubmit={handleFormSubmit}>
-            <input className="searchTerm" type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
-            <button className="searchButton" type="submit"><i class="fa fa-search"></i></button>
-          </form>
+        <form className="search" onSubmit={handleFormSubmit}>
+          <input className="searchTerm" type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
+          <button className="searchButton" type="submit"><i class="fa fa-search"></i></button>
+        </form>
         <div className="card_container">
           {gameData.map((game) => (
             <div className="game_card">

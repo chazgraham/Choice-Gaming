@@ -44,6 +44,8 @@ const Profile = () => {
   const [gameGenre, setGameGenres] = useState([])
   const [gameRating, setGameRating] = useState([])
   const [gameReleaseDate, setGameReleaseDate] = useState([])
+  const [gameDeleteId, setGameDeleteId] = useState([])
+  const [modalDeleteBtn, setModalDeleteBtn] = useState('')
 
   //handles detail model 
   const [show, setShow] = useState(false);
@@ -55,17 +57,20 @@ const Profile = () => {
     const response = await fetch(`${BASE_URL}games/${gameId}?key=${api_key}&`);
     const game = await response.json();
 
-    const gameDescription = game.description;
+    const gameDescription = game.description_raw;
     const gamePlatform = game.platforms;
     const gameGenres = game.genres;
     const gameRating = game.rating;
     const gameRelease = game.released
+    const gameDeleteId = game.id
+    console.log(gameDeleteId)
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);
     setGameGenres(gameGenres);
     setGameRating(gameRating);
     setGameReleaseDate(gameRelease);
+    setGameDeleteId(gameDeleteId.toString())
     handleShow()
   }
 
@@ -140,136 +145,124 @@ const Profile = () => {
   }
 
   return (
-    <div>
-      <div className="profile-h2">
+    <>
+      <section>
         <h2>
           Viewing {userParam ? `${user.username}'s` : 'your'} profile.
         </h2>
-      </div>
-      {Auth.loggedIn() && (
-        <div>
-          {userParam && (
-            <button
-              className="add-friend"
-              onClick={handleClick}>
+        {Auth.loggedIn() && (
+          <div>
+            {userParam && (
+              <button
+                className="add-friend"
+                onClick={handleClick}>
                 Add As Friend
-            </button>
-          )}
+              </button>
+            )}
+          </div>
+        )}
+      </section>
+      <section>
+        <FriendList
+          username={user.username}
+          friendCount={user.friendCount}
+          friends={user.friends}
+        />
+      </section>
+      <section>
+        <div>
+          <h2>Currently Playing</h2>
+          <div className="card_container">
+            {user.savedGames.map((game) => (
+              <div className="game_card">
+                <img className="game_img" src={game.background_image} alt={game.name} />
+                <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('playing') }}>
+                  <p className="game_title_overlay">{game.name}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      )}
-
-      <Row>
-        <Col xs={2}>
-          <FriendList
-            username={user.username}
-            friendCount={user.friendCount}
-            friends={user.friends}
-          />
-        </Col>
-
-        <Col>
-          <div className='profile-h3'>
-            <h3>Playing</h3>
-          </div>
-          {user.savedGames.map((game) => (
-            <div className="game-card" key={game.name}>
-              <h4>{game.name}</h4>
-              <div className="overlay-position">
-                <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} />
-                {!userParam && (
-                  <div className="img__overlay">
-                    <button
-                      className='save-button'
-                      onClick={() => handleDeleteGame(game.gameId)}>
-                      Remove
-                    </button>
-                  </div>
-                )}
+        <div>
+          <h2>Wishlist</h2>
+          <div className="card_container">
+            {user.wishlistGames.map((game) => (
+              <div className="game_card">
+                <img className="game_img" src={game.background_image} alt={game.name} />
+                <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('wishlist') }}>
+                  <p className="game_title_overlay">{game.name}</p>
+                </div>
               </div>
-              {<button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>}
-            </div>
-          ))}
-        </Col>
-
-        <Col>
-          <div className='profile-h3'>
-            <h3>Wishlist</h3>
+            ))}
           </div>
-          {user.wishlistGames.map((game) => (
-            <div className="game-card" key={game.name}>
-              <h4>{game.name}</h4>
-              <div className="overlay-position">
-                <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} />
-                {!userParam && (
-                  <div className="img__overlay">
-                    <button
-                      className='save-button'
-                      onClick={() => handleDeleteWishlistGame(game.gameId)}>
-                      Remove
-                    </button>
-                  </div>
-                )}
+        </div>
+        <div>
+          <h2>Completed</h2>
+          <div className="card_container">
+            {user.playedGames.map((game) => (
+              <div className="game_card">
+                <img className="game_img" src={game.background_image} alt={game.name} />
+                <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('completed') }}>
+                  <p className="game_title_overlay">{game.name}</p>
+                </div>
               </div>
-              {<button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>}
-            </div>
-          ))}
-        </Col>
-
-        <Col>
-          <div className='profile-h3'>
-            <h3>Completed</h3>
+            ))}
           </div>
-          {user.playedGames.map((game) => (
-            <div className="game-card" key={game.name}>
-              <h4>{game.name}</h4>
-              <div className="overlay-position">
-                <img className="img-thumbnail" src={game.background_image} alt={`${game.name}`} />
-                {!userParam && (
-                  <div className="img__overlay">
-                    <button
-                      className='save-button'
-                      onClick={() => handleDeletePlayedGame(game.gameId)}>
+        </div>
+      </section>
+      <section>
+        <Modal show={show} onHide={handleClose} className="modal">
+          <Modal.Header>
+            <p>{gameRating === 0
+              ? 'Currently Unrated'
+              : `Rating: ${gameRating} out of 5`}
+            </p>
+            <p>Released on: {gameReleaseDate}</p>
+          </Modal.Header>
+          <Modal.Header>
+            <Modal.Title>Description</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{gameDescription}</Modal.Body>
+          <Modal.Header>
+            <Modal.Title>Platforms</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{gamePlatform.map((platforms) => (
+            <li key={platforms.platform.name}>{platforms.platform.name}</li>
+          ))}</Modal.Body>
+          {Auth.loggedIn() && (
+            <Modal.Body>
+              {!userParam && (
+                <div>
+                  {modalDeleteBtn === 'playing' && (
+                    <Button
+                      onClick={() => handleDeleteGame(gameDeleteId)}>
                       Remove
-                    </button>
-                  </div>
-                )}
-              </div>
-              {<button className="details-btn" onClick={() => getDetails(game.gameId)}>Details</button>}
-            </div>
-          ))}
-        </Col>
-      </Row>
-
-      <Modal show={show} onHide={handleClose}>
-        <p>{gameRating === 0
-          ? 'Currently Unrated'
-          : `Rating: ${gameRating} out of 5`}
-        </p>
-        <p>Released on: {gameReleaseDate}</p>
-        <Modal.Header>
-          <Modal.Title>Description</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{gameDescription}</Modal.Body>
-        <Modal.Header>
-          <Modal.Title>Platforms</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{gamePlatform.map((platforms) => (
-          <li key={platforms.platform.name}>{platforms.platform.name}</li>
-        ))}</Modal.Body>
-        <Modal.Header>
-          <Modal.Title>Genres</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{gameGenre.map((genres) => (
-          <li key={genres.name}>{genres.name}</li>
-        ))}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-    </div>
+                    </Button>
+                  )}
+                  {modalDeleteBtn === 'wishlist' && (
+                    <Button
+                      onClick={() => handleDeleteWishlistGame(gameDeleteId)}>
+                      Remove
+                    </Button>
+                  )}
+                  {modalDeleteBtn === 'completed' && (
+                    <Button
+                      onClick={() => handleDeletePlayedGame(gameDeleteId)}>
+                      Remove
+                    </Button>
+                  )}
+                </div>
+              )}
+            </Modal.Body>
+          )}
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </section>
+    </>
   );
 };
 
