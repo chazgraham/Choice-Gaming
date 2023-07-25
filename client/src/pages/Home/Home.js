@@ -305,7 +305,7 @@ const Home = () => {
       </section>
       <section className="main_container">
         <div>
-          <h2>Popular</h2>
+          <h2>Popular :</h2>
           <div className="card_container">
             {popularData.map((game) => (
               <div className="game_card">
@@ -323,7 +323,7 @@ const Home = () => {
           </div>
         </div>
         <div>
-          <h2>Top Upcoming</h2>
+          <h2>Top Upcoming :</h2>
           <div className="card_container">
             {upcomingData.map((game) => (
               <div className="game_card">
@@ -341,7 +341,7 @@ const Home = () => {
           </div>
         </div>
         <div>
-          <h2>New Released</h2>
+          <h2>New Released :</h2>
           <div className="card_container">
             {newGameData.map((game) => (
               <div className="game_card">
