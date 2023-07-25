@@ -1,53 +1,53 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Card, CardColumns } from 'react-bootstrap';
+import React from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { QUERY_USERS} from '../../utils/queries';
+import { QUERY_USERS, QUERY_USER, GET_ME } from '../../utils/queries';
+import "./userList.css";
 
 const UserList = () => {
-    const [searchUser, setSearchedUser] = useState([]);
-    const [friend, setFriend] = useState([]);
-    const {  data } = useQuery(QUERY_USERS);
-    const users = data?.users || [];
+    const { username: userParam } = useParams();
+    const { data: users } = useQuery(QUERY_USERS);
+    const { loading, data } = useQuery(userParam ? QUERY_USER : GET_ME, {
+        variables: { username: userParam }
+    });
 
-    if (!users.length) {
-        return <h3>No users Yet</h3>;
+    const allUsers = users?.users || [];
+    const user = data?.me || data?.user || {};
+    console.log(allUsers)
+
+    if (!user.friends || !user.friends.length) {
+        return <p className="friend-container">{user.username}, make some friends!</p>;
     }
-    
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        console.log(users)
-
+    if (loading) {
+        return <div>Loading...</div>;
     }
 
     return (
         <>
-            <section>
-                <form className="search" onSubmit={handleFormSubmit}>
-                <input className="searchTerm" type="text" placeholder="Search" onChange={(e) => setSearchedUser(e.target.value)}></input>
-                <button className="searchButton" type="submit"><i class="fa fa-search"></i></button>
-                </form>
-                <p>{friend}</p>
-            </section>
-            <Container>
-                <h3>Explore other Users!</h3>
-                <CardColumns>
-                    {users.map(users => (
-                        <Card className='user-cards' key={users._id}>
-                            <Card.Body>
-                                <Card.Title>
-                                    <Link
-                                        to={`/profile/${users.username}`}
-                                        style={{ fontWeight: 700 }}
-                                    >
-                                        {users.username}
-                                    </Link>{' '}
-                                </Card.Title>
-                            </Card.Body>
-                        </Card>
+            <section className='friends_container'>
+                <div className='friend-container'>
+                    <h5 className='friend_h5'>
+                        {user.username}'s  {user.friendCount === 1 ? 'friend' : 'friends'}
+                    </h5>
+                    {user.friends.map(friend => (
+                        <li className="profile-link" key={friend._id}>
+                            <Link to={`/profile/${friend.username}`} className="profile-link">{friend.username}</Link>
+                        </li>
                     ))}
-                </CardColumns>
-            </Container>
+                </div>
+                <div>
+                    {allUsers.map(users => (
+                        <div>
+                            <Link
+                                to={`/profile/${users.username}`}
+                                style={{ fontWeight: 700 }}
+                            >
+                                {users.username}
+                            </Link>{' '}
+                        </div>
+                    ))}
+                </div>
+            </section>
         </>
     );
 };

@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER, GET_ME } from '../../utils/queries';
-import FriendList from '../../components/FriendsList/FriendsList';
 import Auth from '../../utils/auth';
 import { ADD_FRIEND, Delete_GAME, Delete_WISHLISTGAME, Delete_PLAYEDGAME } from '../../utils/mutations';
 import { deleteGameId, deleteWishlistGameId, deletePlayedGameId } from '../../utils/localStorage';
@@ -163,12 +162,6 @@ const Profile = () => {
         )}
       </section>
       <section className='profile_game_container'>
-        <FriendList
-          className='friend-container'
-          username={user.username}
-          friendCount={user.friendCount}
-          friends={user.friends}
-        />
         <div className='game_list'>
           <h2>Playing</h2>
           <div className="card_container">

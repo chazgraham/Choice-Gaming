@@ -24,7 +24,7 @@ function Footer() {
                 </li>
                 <li className='footer_li'>
                     {Auth.loggedIn() && (
-                        <Link to='/profile' className='footer_link'><li>Profile</li></Link>
+                        <Link to='/profile' className='footer_link'>Profile</Link>
                     )}
                 </li>
             </ul>
