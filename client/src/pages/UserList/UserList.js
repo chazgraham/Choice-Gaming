@@ -5,11 +5,8 @@ import { QUERY_USERS, QUERY_USER, GET_ME } from '../../utils/queries';
 import "./userList.css";
 
 const UserList = () => {
-    const { username: userParam } = useParams();
     const { data: allUsers } = useQuery(QUERY_USERS);
-    const { loading, data: meUser } = useQuery(userParam ? QUERY_USER : GET_ME, {
-        variables: { username: userParam }
-    });
+    const { loading, data: meUser } = useQuery(GET_ME)
 
     const users = allUsers?.users || [];
     const user = meUser?.me || meUser?.user || {};
