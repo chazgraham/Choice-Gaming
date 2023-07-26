@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { QUERY_USERS, QUERY_USER, GET_ME } from '../../utils/queries';
+import { QUERY_USERS, GET_ME } from '../../utils/queries';
 import "./userList.css";
 
 const UserList = () => {
@@ -11,6 +11,7 @@ const UserList = () => {
     const users = allUsers?.users || [];
     const user = meUser?.me || meUser?.user || {};
     console.log(users)
+    console.log(user)
 
     if (loading) {
         return <div>Loading...</div>;
