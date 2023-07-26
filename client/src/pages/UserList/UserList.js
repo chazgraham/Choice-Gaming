@@ -11,7 +11,7 @@ const UserList = () => {
         variables: { username: userParam }
     });
 
-    const users = allUsers?.users || [];
+    const users = allUsers?.users || {};
     const user = data?.me || data?.user || {};
     console.log(users)
 
@@ -38,7 +38,7 @@ const UserList = () => {
                     <h5 className='allUsers_h5'>All Users</h5>
                     <div className='users'>
                     {users.map(users => (
-                        <div>
+                        <div key={users._id}>
                             <Link
                                 className='user'
                                 to={`/profile/${users.username}`}
