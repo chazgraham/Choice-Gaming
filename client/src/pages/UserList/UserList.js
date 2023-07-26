@@ -7,12 +7,12 @@ import "./userList.css";
 const UserList = () => {
     const { username: userParam } = useParams();
     const { data: allUsers } = useQuery(QUERY_USERS);
-    const { loading, data } = useQuery(userParam ? QUERY_USER : GET_ME, {
+    const { loading, data: meUser } = useQuery(userParam ? QUERY_USER : GET_ME, {
         variables: { username: userParam }
     });
 
     const users = allUsers?.users || [];
-    const user = data?.me || data?.user || {};
+    const user = meUser?.me || meUser?.user || {};
     console.log(users)
 
     if (loading) {
