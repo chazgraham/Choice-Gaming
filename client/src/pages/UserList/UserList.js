@@ -35,17 +35,17 @@ const UserList = () => {
                 <div className='allUsers'>
                     <h5 className='allUsers_h5'>All Users</h5>
                     <div className='users'>
-                    {users.map(users => (
-                        <div key={users._id}>
-                            <Link
-                                className='user'
-                                to={`/profile/${users.username}`}
-                                style={{ fontWeight: 700 }}
-                            >
-                                {users.username}
-                            </Link>{' '}
-                        </div>
-                    ))}
+                        {users.map(users => (
+                            <>
+                                <Link
+                                    className='user'
+                                    to={`/profile/${users.username}`}
+                                    style={{ fontWeight: 700 }}
+                                >
+                                    {users.username}
+                                </Link>{' '}
+                            </>
+                        ))}
                     </div>
                 </div>
             </section>

@@ -2,6 +2,7 @@
     display: flex;
     margin: 50px;
     min-height: 70vh;
+    padding-bottom: 200px;
 }
 
 h5 {
@@ -22,6 +23,7 @@ h5 {
 
 .users {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -70,5 +72,15 @@ h5 {
 
     .friend_h5 {
         text-align: center;
+    }
+
+    .users {
+        margin: 30px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .friends_container {
+        padding-bottom: 200px;
     }
 }
