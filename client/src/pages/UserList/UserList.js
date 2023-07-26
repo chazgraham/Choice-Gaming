@@ -6,14 +6,14 @@ import "./userList.css";
 
 const UserList = () => {
     const { username: userParam } = useParams();
-    const { data: users } = useQuery(QUERY_USERS);
+    const { data: allUsers } = useQuery(QUERY_USERS);
     const { loading, data } = useQuery(userParam ? QUERY_USER : GET_ME, {
         variables: { username: userParam }
     });
 
-    const allUsers = users?.users || [];
+    const users = allUsers?.users || [];
     const user = data?.me || data?.user || {};
-    console.log(allUsers)
+    console.log(users)
 
     if (loading) {
         return <div>Loading...</div>;
@@ -37,7 +37,7 @@ const UserList = () => {
                 <div className='allUsers'>
                     <h5 className='allUsers_h5'>All Users</h5>
                     <div className='users'>
-                    {allUsers.map(users => (
+                    {users.map(users => (
                         <div>
                             <Link
                                 className='user'
