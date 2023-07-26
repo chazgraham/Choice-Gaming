@@ -11,7 +11,7 @@ const UserList = () => {
         variables: { username: userParam }
     });
 
-    const users = allUsers?.users || {};
+    const users = allUsers?.users || [{}];
     const user = data?.me || data?.user || {};
     console.log(users)
 
