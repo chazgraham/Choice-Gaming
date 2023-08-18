@@ -60,6 +60,11 @@ h5 {
     border-top: 1px white solid;
 }
 
+.user_search {
+    margin-bottom: 20px;
+    flex: none;
+}
+
 @media only screen and (max-width: 750px) {
     .friends_container {
         flex-wrap: wrap;
@@ -83,5 +88,11 @@ h5 {
 @media only screen and (max-width: 480px) {
     .friends_container {
         padding-bottom: 200px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .user_search {
+        width: 300px;
     }
 }
