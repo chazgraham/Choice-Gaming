@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_USERS, GET_ME } from '../../utils/queries';
@@ -12,6 +12,19 @@ const UserList = () => {
     const user = meUser?.me || meUser?.user || {};
     console.log(users)
     console.log(user)
+    const [searchResults, setSearchResults] = useState(users);
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+    }
+
+    const handleSearchChange = (e) => {
+        if (!e.target.value) return(users)
+
+        const resultsArray = users.filter(user => user.username.includes(e.target.value))
+
+        setSearchResults(resultsArray);
+    }
 
     if (loading) {
         return <div>Loading...</div>;
@@ -34,8 +47,11 @@ const UserList = () => {
                 </div>
                 <div className='allUsers'>
                     <h5 className='allUsers_h5'>All Users</h5>
+                    <form className="search" onSubmit={handleFormSubmit}>
+                        <input className="searchTerm" type="text" placeholder="Search" onChange={handleSearchChange}></input>
+                    </form>
                     <div className='users'>
-                        {users.map(users => (
+                        {searchResults.map(users => (
                             <>
                                 <Link
                                     className='user'

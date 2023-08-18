@@ -173,8 +173,8 @@ const Profile = () => {
       <section className='profile_game_container'>
         <div className='game_display'>
           <button onClick={() => { setGameDisplay('playing'); setActive('playing') }} className={active === 'playing' ? 'active' : 'game_display_btn'}>Playing</button>
-          <button onClick={() => { setGameDisplay('wishList'); setActive('wishList') }} className={active === 'wishList' ? 'active' : 'game_display_btn'}>wishList</button>
-          <button onClick={() => { setGameDisplay('completed'); setActive('completed') }} className={active === 'completed' ? 'active' : 'game_display_btn'}>completed</button>
+          <button onClick={() => { setGameDisplay('wishList'); setActive('wishList') }} className={active === 'wishList' ? 'active' : 'game_display_btn'}>Wishlist</button>
+          <button onClick={() => { setGameDisplay('completed'); setActive('completed') }} className={active === 'completed' ? 'active' : 'game_display_btn'}>Completed</button>
         </div>
         <div className='game_list'>
           {gamedisplay === 'playing' && (

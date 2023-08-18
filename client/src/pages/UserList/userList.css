@@ -45,6 +45,7 @@ h5 {
 }
 
 .friend_h5 {
+    text-align: center;
     background-color: rgb(12, 12, 12);
     margin-bottom: 0;
     padding: 15px 30px 15px 30px;

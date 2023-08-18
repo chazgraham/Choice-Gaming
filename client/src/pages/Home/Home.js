@@ -85,7 +85,6 @@ const Home = () => {
       console.error(err);
     }
   }
-  console.log(popularData)
 
   // Gets a list of 10 Upcoming games
   const getUpcoming = async (event) => {
@@ -114,6 +113,7 @@ const Home = () => {
       console.error(err);
     }
   }
+  console.log(upcomingData)
 
   // Gets a list of 10 New games
   const getNew = async (event) => {
