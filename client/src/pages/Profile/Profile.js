@@ -22,7 +22,7 @@ const Profile = () => {
   const { loading, data } = useQuery(userParam ? QUERY_USER : GET_ME, {
     variables: { username: userParam }
   });
-
+  const { data: ME } = useQuery(GET_ME);
 
   // Add friend
   const handleClick = async () => {
@@ -36,6 +36,8 @@ const Profile = () => {
   };
 
   const user = data?.me || data?.user || {};
+  const checkingFriend = ME?.me.friends.map((user) => user.username).includes(user.username)
+  
 
   // Differnt values for game details
   const [gameDescription, setGameDescription] = useState([]);
@@ -145,13 +147,6 @@ const Profile = () => {
     }
   }
 
-  //Set up for friend button
-  //console.log(userParam)
-  //console.log(user.friends)
-  //console.log(Auth.getProfile().data)
-  //console.log(users)
-  //const { data: users } = useQuery(QUERY_USERS);
-
   return (
     <>
       <section>
@@ -161,7 +156,7 @@ const Profile = () => {
               <button
                 className="add-friend"
                 onClick={handleClick}>
-                Add As Friend
+                {checkingFriend ? `Friended` : `Add Friend`}
               </button>
             )}
           </div>
