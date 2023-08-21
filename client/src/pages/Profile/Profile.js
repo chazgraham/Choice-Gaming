@@ -9,6 +9,7 @@ import { ADD_FRIEND, Delete_GAME, Delete_WISHLISTGAME, Delete_PLAYEDGAME } from 
 import { deleteGameId, deleteWishlistGameId, deletePlayedGameId } from '../../utils/localStorage';
 import { BASE_URL } from '../../utils/gamesApi';
 import "./profile.css";
+import noImg from '../../assests/no_img.jpg';
 
 const api_key = '7ed816ff62b4460aa987135932b168c3'
 
@@ -37,7 +38,7 @@ const Profile = () => {
 
   const user = data?.me || data?.user || {};
   const checkingFriend = ME?.me.friends.map((user) => user.username).includes(user.username)
-  
+
 
   // Differnt values for game details
   const [gameDescription, setGameDescription] = useState([]);
@@ -176,7 +177,11 @@ const Profile = () => {
             <div className="card_container">
               {user.savedGames.map((game) => (
                 <div className="game_card">
-                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  {!game.background_image ?
+                    <img className="game_img" src={game.background_image = noImg} alt={game.name} />
+                    :
+                    <img className="game_img" src={game.background_image} alt={game.name} />
+                  }
                   <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('playing') }}>
                     <p className="game_title_overlay">{game.name}</p>
                   </div>
@@ -189,7 +194,11 @@ const Profile = () => {
             <div className="card_container">
               {user.wishlistGames.map((game) => (
                 <div className="game_card">
-                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  {!game.background_image ?
+                    <img className="game_img" src={game.background_image = noImg} alt={game.name} />
+                    :
+                    <img className="game_img" src={game.background_image} alt={game.name} />
+                  }
                   <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('wishlist') }}>
                     <p className="game_title_overlay">{game.name}</p>
                   </div>
@@ -201,7 +210,11 @@ const Profile = () => {
             <div className="card_container">
               {user.playedGames.map((game) => (
                 <div className="game_card">
-                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  {!game.background_image ?
+                    <img className="game_img" src={game.background_image = noImg} alt={game.name} />
+                    :
+                    <img className="game_img" src={game.background_image} alt={game.name} />
+                  }
                   <div className="overlay" onClick={() => { getDetails(game.gameId); setModalDeleteBtn('completed') }}>
                     <p className="game_title_overlay">{game.name}</p>
                   </div>

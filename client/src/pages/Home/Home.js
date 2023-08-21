@@ -7,6 +7,7 @@ import { SAVE_GAME, WISHLIST_GAME, PLAYED_GAME } from "../../utils/mutations";
 import { saveGameIds as saveGames, getSavedGameIds, getWishlistGameIds, saveWishlistIds, getPlayedGameIds, SaveplayedGameIds } from "../../utils/localStorage";
 import Auth from '../../utils/auth';
 import { BASE_URL, LAST_YEAR, CURRENT_DATE, NEXT_YEAR } from '../../utils/gamesApi';
+import noImg from '../../assests/no_img.jpg';
 
 const api_key = '7ed816ff62b4460aa987135932b168c3'
 
@@ -169,7 +170,7 @@ const Home = () => {
 
     const gameData = {
       name: game.name,
-      background_image: game.background_image,
+      background_image: !game.background_image ? noImg : game.background_image,
       gameId: game.id,
     }
 
@@ -292,7 +293,11 @@ const Home = () => {
         <div className="card_container">
           {gameData.map((game) => (
             <div className="game_card">
-              <img className="game_img" src={game.background_image} alt={game.name} />
+              {!game.background_image ?
+                <img className="game_img" src={noImg} alt={game.name} />
+                :
+                <img className="game_img" src={game.background_image} alt={game.name} />
+              }
               <div className="overlay" onClick={() => getDetails(game.gameId)}>
                 <p className="game_title_overlay">{game.name}</p>
                 <div className="genre_list">
@@ -306,24 +311,28 @@ const Home = () => {
         </div>
       </section>
       <section className="main_container">
-      <div className='game_display'>
-          <button onClick={() => {setGameDisplay('popular'); setActive('popular')}} className={active === 'popular' ? 'active' : 'game_display_btn'}>Popular</button>
-          <button onClick={() => {setGameDisplay('upcoming'); setActive('upcoming')}} className={active === 'upcoming' ? 'active' : 'game_display_btn'}>Upcoming</button>
-          <button onClick={() => {setGameDisplay('new'); setActive('new')}} className={active === 'new' ? 'active' : 'game_display_btn'}>New</button>
+        <div className='game_display'>
+          <button onClick={() => { setGameDisplay('popular'); setActive('popular') }} className={active === 'popular' ? 'active' : 'game_display_btn'}>Popular</button>
+          <button onClick={() => { setGameDisplay('upcoming'); setActive('upcoming') }} className={active === 'upcoming' ? 'active' : 'game_display_btn'}>Upcoming</button>
+          <button onClick={() => { setGameDisplay('new'); setActive('new') }} className={active === 'new' ? 'active' : 'game_display_btn'}>New</button>
         </div>
         <div className='game_list'>
           {gamedisplay === 'popular' && (
             <div className="card_container">
               {popularData.map((game) => (
                 <div className="game_card">
-                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  {!game.background_image ?
+                    <img className="game_img" src={noImg} alt={game.name} />
+                    :
+                    <img className="game_img" src={game.background_image} alt={game.name} />
+                  }
                   <div className="overlay" onClick={() => getDetails(game.gameId)}>
                     <p className="game_title_overlay">{game.name}</p>
                     <div className="genre_list">
-                    {game.genres.map((genre) => (
-                      <li className="genre">{genre.name}</li>
-                    ))}
-                  </div>
+                      {game.genres.map((genre) => (
+                        <li className="genre">{genre.name}</li>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -334,14 +343,18 @@ const Home = () => {
             <div className="card_container">
               {upcomingData.map((game) => (
                 <div className="game_card">
-                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  {!game.background_image ?
+                    <img className="game_img" src={game.background_image = noImg} alt={game.name} />
+                    :
+                    <img className="game_img" src={game.background_image} alt={game.name} />
+                  }
                   <div className="overlay" onClick={() => getDetails(game.gameId)}>
                     <p className="game_title_overlay">{game.name}</p>
                     <div className="genre_list">
-                    {game.genres.map((genre) => (
-                      <li className="genre">{genre.name}</li>
-                    ))}
-                  </div>
+                      {game.genres.map((genre) => (
+                        <li className="genre">{genre.name}</li>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -351,14 +364,18 @@ const Home = () => {
             <div className="card_container">
               {newGameData.map((game) => (
                 <div className="game_card">
-                  <img className="game_img" src={game.background_image} alt={game.name} />
+                  {!game.background_image ?
+                    <img className="game_img" src={noImg} alt={game.name} />
+                    :
+                    <img className="game_img" src={game.background_image} alt={game.name} />
+                  }
                   <div className="overlay" onClick={() => getDetails(game.gameId)}>
                     <p className="game_title_overlay">{game.name}</p>
                     <div className="genre_list">
-                    {game.genres.map((genre) => (
-                      <li className="genre">{genre.name}</li>
-                    ))}
-                  </div>
+                      {game.genres.map((genre) => (
+                        <li className="genre">{genre.name}</li>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
