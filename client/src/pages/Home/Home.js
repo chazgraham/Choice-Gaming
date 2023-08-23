@@ -174,7 +174,6 @@ const Home = () => {
       gameId: game.id,
     }
 
-
     const gameDescription = game.description_raw;
     const gamePlatform = game.platforms;
     const gameRating = game.rating;
@@ -282,6 +281,7 @@ const Home = () => {
     }
   };
 
+  // TODO: add button that renders more games in each category
 
   return (
     <>
