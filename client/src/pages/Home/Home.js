@@ -289,6 +289,7 @@ const Home = () => {
         <form className="search" onSubmit={handleFormSubmit}>
           <input className="searchTerm" type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
           <button className="searchButton" type="submit"><i class="fa fa-search"></i></button>
+          <button>clear</button>
         </form>
         <div className="card_container">
           {gameData.map((game) => (
