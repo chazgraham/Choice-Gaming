@@ -52,7 +52,7 @@ const Home = () => {
       console.error(err);
     }
   }
-
+  console.log(searchedInput)
   // Gets a list of 10 popular games
   useEffect(() => {
     getPopular()
@@ -287,9 +287,9 @@ const Home = () => {
     <>
       <section>
         <form className="search" onSubmit={handleFormSubmit}>
-          <input className="searchTerm" type="text" placeholder="Search" onChange={(e) => setSearchInput(e.target.value)}></input>
+          <input className="searchTerm" type="text" placeholder="Search" value={searchedInput} onChange={(e) => setSearchInput(e.target.value)}></input>
           <button className="searchButton" type="submit"><i class="fa fa-search"></i></button>
-          <button>clear</button>
+          <button onClick={(e) => setGameData([])}>clear</button>
         </form>
         <div className="card_container">
           {gameData.map((game) => (
