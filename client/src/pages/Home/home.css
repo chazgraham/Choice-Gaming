@@ -55,6 +55,19 @@ h2 {
     border: 3px solid #464646;
 }
 
+.clearButton {
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0, 0, 0, 5px;
+	font: inherit;
+	outline: inherit;
+    text-decoration: underline;
+}
+
+.clearButton:hover {
+    color: #261fb8;
+}
 
 .card_container {
     display: flex;
