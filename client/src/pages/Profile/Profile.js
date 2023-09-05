@@ -147,7 +147,7 @@ const Profile = () => {
       console.error(err);
     }
   }
-
+  
   return (
     <>
       <section>
@@ -175,6 +175,7 @@ const Profile = () => {
         <div className='game_list'>
           {gamedisplay === 'playing' && (
             <div className="card_container">
+              {user.savedGames.length === 0 ? "Not playing any Games" : ""}
               {user.savedGames.map((game) => (
                 <div className="game_card">
                   {!game.background_image ?
@@ -189,9 +190,9 @@ const Profile = () => {
               ))}
             </div>
           )}
-
           {gamedisplay === 'wishList' && (
             <div className="card_container">
+              {user.wishlistGames.length === 0 ? "No wishlisted Games" : ""}
               {user.wishlistGames.map((game) => (
                 <div className="game_card">
                   {!game.background_image ?
@@ -208,6 +209,7 @@ const Profile = () => {
           )}
           {gamedisplay === 'completed' && (
             <div className="card_container">
+              {user.playedGames.length === 0 ? "No games played" : ""}
               {user.playedGames.map((game) => (
                 <div className="game_card">
                   {!game.background_image ?

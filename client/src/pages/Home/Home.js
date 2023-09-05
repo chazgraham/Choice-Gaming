@@ -52,7 +52,7 @@ const Home = () => {
       console.error(err);
     }
   }
-  console.log(searchedInput)
+
   // Gets a list of 10 popular games
   useEffect(() => {
     getPopular()
@@ -114,7 +114,6 @@ const Home = () => {
       console.error(err);
     }
   }
-  console.log(upcomingData)
 
   // Gets a list of 10 New games
   const getNew = async (event) => {
@@ -166,7 +165,6 @@ const Home = () => {
 
     const response = await fetch(`${BASE_URL}games/${gameID}?key=${api_key}&`);
     const game = await response.json();
-    console.log(game)
 
     const gameData = {
       name: game.name,
@@ -198,8 +196,6 @@ const Home = () => {
 
   const handleSaveGame = async (gameId) => {
     const gameToSave = gameToBeSaved
-    console.log(gameToSave)
-
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -229,7 +225,6 @@ const Home = () => {
   const handlewishlistGame = async (gameId) => {
 
     const gameToSave = gameToBeSaved
-    console.log(gameToSave)
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
