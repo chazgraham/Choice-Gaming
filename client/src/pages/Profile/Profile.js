@@ -67,7 +67,6 @@ const Profile = () => {
     const gameRating = game.rating;
     const gameRelease = game.released
     const gameDeleteId = game.id
-    console.log(gameDeleteId)
 
     setGameDescription(gameDescription);
     setGamePlatform(gamePlatform);

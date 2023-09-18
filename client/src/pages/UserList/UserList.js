@@ -10,8 +10,6 @@ const UserList = () => {
 
     const users = allUsers?.users || [];
     const user = meUser?.me || meUser?.user || {};
-    console.log(users)
-    console.log(user)
     const [searchResults, setSearchResults] = useState(users);
 
     const handleFormSubmit = (event) => {

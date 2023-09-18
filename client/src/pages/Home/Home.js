@@ -34,7 +34,6 @@ const Home = () => {
 
       const games = await response.json();
       const game = games.results;
-      console.log(game)
 
       const gameData = game.map((game) => ({
         name: game.name,
